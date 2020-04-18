@@ -1,4 +1,3 @@
-const add = require('../../lib/student/add');
 const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
 const BaseSql = require('../../lib/student/BaseSql');
