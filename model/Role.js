@@ -10,18 +10,21 @@ module.exports = {
     Instructor: {
         oper: {'学生住宿信息管理': ['查询','导入','单个添加','修改']},
         学生住宿信息管理:{
-            find: [{'findDormitory':['buildNumber','buildNumber']},{'findDetail':['studentName','studentName']},{'findDistributed':['grade','profession']}]
+            find: [{'findDormitory':['buildNumber','dormitoryNumber']},{'findDetail':['studentName','studentNumber']},{'findDistributed':['grade','profession']}]
         }
     },
 
     DeLeader:{
         oper: {'学生住宿信息管理': ['查询']},
         学生住宿信息管理:{
-            find:[{}]
+            find:[{'findDistributed':['grade','profession']}]
         }
     },
 
     House:{
-        oper: {'学生住宿信息管理': ['查询']}
+        oper: {'学生住宿信息管理': ['查询']},
+        学生住宿信息管理:{
+            find:[{'findDormitory':['dormitoryNumber']},]
+        }
     }
 }
