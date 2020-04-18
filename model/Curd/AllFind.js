@@ -25,8 +25,8 @@ class AllFind extends BaseSql {
             });
         } else {
             let profession = arr[2];
-            let num = arr[1] === 'undefined' && arr[2] === 'undefined' ? 'or' : 'and';
-            let sql = `select DISTINCT ${this.field} from student where department=? ${num} (grade=? ${this.column}  profession like '%${profession}%') `;
+            /* let num = arr[1] === 'undefined' && arr[2] === 'undefined' ? 'or' : 'and'; */
+            let sql = `select DISTINCT ${this.field} from student where department=? and (grade=? and  profession like '%${profession}%') `;
             console.log(sql);
             console.log(arr);
             return new Promise(function (resolve, reject) {
@@ -49,12 +49,14 @@ class AllFind extends BaseSql {
             });
         }
     }
-    findStub(param) {
+    findStub(param,position) {
         if (Object.keys(param).length === 5) {
             let sqlPinJie = null; let sqlArr = [];
-            const positions = param.positions;
+            const positions = position;
+            console.log(positions);
+            
             //删除无关的键值对
-            delete param.type; delete param.role; delete param.positions
+            delete param.type; delete param.role;
             let arr = Object.keys(param);
             const index = arr.filter(item => param[item] !== 'undefined');
             switch (index.length) {

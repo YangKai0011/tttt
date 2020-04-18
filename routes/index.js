@@ -67,35 +67,60 @@ router.get('/operate', async (req, res, next) => {
   console.log(param);
   if (req.userInfo[1].role  ===  'Controller') {
     if (param.type === 'findDormitory') {
-      let column = param.dormitoryNumber !== 'undefined' && param.buildNumber !== 'undefined' ? 'and' : 'or';
+      /* let column = param.dormitoryNumber !== 'undefined' && param.buildNumber !== 'undefined' ? 'and' : 'or'; */
+      let column = null;
+      if(param.buildNumber && param.dormitoryNumber && (param.buildNumber !== 'undefined' && param.dormitoryNumber !== 'undefined')){
+       column = 'and'
+      }else if(param.buildNumber && !param.dormitoryNumber){
+          column = 'or';
+          param.dormitoryNumber = 'undefined';
+      }else if(!param.buildNumber && param.dormitoryNumber){
+        column = 'or';
+        param.buildNumber = 'undefined';
+      }else{
+        column = 'or';
+      }
       let field = AllSql.学生信息管理.role.Controller.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
       const result = await find.findDormitory();
       let status;
-      result.err !== [] ? status = false : status = true; 
-      res.send({ status: status, results: result.results });
+      result.err !== null ? status = false : status = true; 
+      res.send({ status: status, data: result.results });
     } else {
-      let column = param.grade !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or';
+      /* let column = param.grade !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or'; */
+      let column = null;
+      if(param.grade && param.profession && (param.grade !== 'undefined' && param.profession !== 'undefined')){
+       column = 'and'
+      }else if(param.grade && !param.profession){
+          column = 'or';
+          param.profession = 'undefined';
+      }else if(!param.grade && param.profession){
+        column = 'or';
+        param.grade = 'undefined';
+      }else{
+        column = 'or';
+      }
       let field = AllSql.学生信息管理.role.Controller.find.findDistributed;
       let find = new AllFind(field, column, [param.grade, param.profession]);
       const result = await find.findDistributed();
       let status;
-      result.err !== [] ? status = false : status = true; 
+      result.err !== null ? status = false : status = true; 
       res.send({ status: status, results: result.results });
     }
   } else if (req.userInfo[1].role === 'Instructor') {
     //TODO
     if (param.type === 'findDormitory') {
       let column = null;
-      /* let column = param.buildNumber || param.dormitoryNumber ? 'and' : 'or'; */
-      if(param.buildNumber && param.dormitoryNumber){
+      if(param.buildNumber && param.dormitoryNumber && (param.buildNumber !== 'undefined' && param.dormitoryNumber !== 'undefined')){
        column = 'and'
       }else if(param.buildNumber && !param.dormitoryNumber){
           column = 'or';
           param.dormitoryNumber = 'undefined';
-      }else{
+      }else if(!param.buildNumber && param.dormitoryNumber){
         column = 'or';
         param.buildNumber = 'undefined';
+      }else{
+        column = 'or';
       }
       let field = AllSql.学生信息管理.role.Instructor.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
@@ -106,49 +131,93 @@ router.get('/operate', async (req, res, next) => {
       result.err === null ? status = true : status = false; 
       res.send({ status:status, data: result.results, invariable: invariable, modify: modify });
     } else if (param.type === 'findDetail') {
-      let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or';
+     /*  let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or'; */
+     let column = null;
+     if(param.studentName && param.studentNumber && (param.studentName !== 'undefined' && param.studentNumber !== 'undefined')){
+      column = 'and'
+     }else if(param.studentName && !param.studentNumber){
+         column = 'or';
+         param.studentNumber = 'undefined';
+     }else if(!param.studentName && param.studentNumber){
+       column = 'or';
+       param.stubName = 'undefined';
+     }else{
+       column = 'or';
+     }
       let field = AllSql.学生信息管理.role.Instructor.find.findDetail;
       let find = new AllFind(field, column, [param.studentName, param.studentNumber]);
       const result = await find.findDetail();
       let status;
-      result.err !== [] ? status = false : status = true; 
+      result.err !== null ? status = false : status = true; 
       res.send({ status:status, results: result.results });
     } else {
-      let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or';
+      /* let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or'; */
       let field = AllSql.学生信息管理.role.Instructor.find.findDistributed;
       //TODO
-      let find = new AllFind(field, column, [req.userInfo[1].positions, param.positions, param.profession]);
+      let find = new AllFind(field, column, [req.userInfo[1].positions.split(',')[0], req.userInfo[1].positions.split(',')[1], param.profession]);
       const result = await find.findDistributed();
       let status;
-      result.err !== [] ? status = false : status = true; 
-      res.send({ status: status, results: result.results });
+      result.err !== null ? status = false : status = true; 
+      res.send({ status: status, data: result.results });
     }
   } else if (param.role === 'DeLeader') {
-    let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or';
+    /* let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or'; */
     let field = AllSql.学生信息管理.role.Instructor.find.findDistributed;
+    let column = null;
+    if(param.grade && param.profession && (param.grade !== 'undefined' && param.profession !== 'undefined')){
+     column = 'and'
+    }else if(param.grade && !param.profession){
+        column = 'or';
+        param.profession = 'undefined';
+    }else if(!param.grade && param.profession){
+      column = 'or';
+      param.grade = 'undefined';
+    }else{
+      column = 'or';
+    }
     //TODO
-    let find = new AllFind(field, column, [param.positions, param.grade, param.profession]);
-    const results = await find.findDistributed();
-    res.send({ err: results.err, results: results.results });
+    let find = new AllFind(field, column, [req.userInfo[1].positions, param.grade, param.profession]);
+    const result = await find.findDistributed();
+    let status;
+    result.err !== null ? status = false : status = true; 
+    res.send({ status: status, data: result.results });
   } else if (param.role === 'House') {
-    if (param.dormitoryNumber) {
-      let column = param.dormitoryNumber === 'undefined' ? 'or' : 'and';
+    if (param.type === 'findDormitory') {
+      let column =  'and';
       let field = AllSql.学生信息管理.role.House.find.findDormitory;
-      let find = new AllFind(field, column, [param.positions, param.dormitoryNumber]);
-      const results = await find.findDormitory();
-      res.send({ err: results.err, results: results.results });
-    } else if (param.grade || param.profession || param.department) {
+      let find = new AllFind(field, column, [req.userInfo[1].positions, param.dormitoryNumber]);
+      const result = await find.findDormitory();
+      let status;
+      result.err !== null ? status = false : status = true; 
+      res.send({ status: status, data: result.results });
+    } else if (param.type === 'findStub') {
       let find = new AllFind();
-      const results = await find.findStub(param);
-      res.send({ err: results.err, results: results.results });
+      const result = await find.findStub(param,req.userInfo[1].positions);
+      let status;
+      result.err !== null ? status = false : status = true; 
+      res.send({status:status, data: result.results });
     } else {
-      let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or';
+      /* let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or'; */
+      let column = null;
+      if(param.studentName && param.studentNumber && (param.studentName !== 'undefined' && param.studentNumber !== 'undefined')){
+       column = 'and'
+      }else if(param.studentName && !param.studentNumber){
+          column = 'or';
+          param.studentNumber = 'undefined';
+      }else if(!param.studentName && param.studentNumber){
+        column = 'or';
+        param.stubName = 'undefined';
+      }else{
+        column = 'or';
+      }
       let field = AllSql.学生信息管理.role.House.find.findDetail;
-      let find = new AllFind(field, column, [param.positions, param.studentName, param.studentNumber]);
-      const results = await find.findDetail();
+      let find = new AllFind(field, column, [req.userInfo[1].positions, param.studentName, param.studentNumber]);
+      const result = await find.findDetail();
       let photos = Object.values(results.results)[0].photo;
       const publicPath = path.resolve(__dirname, "../" + photos);
-      res.send({ err: results.err, results: results.results });
+      let status;
+      result.err !== null ? status = false : status = true; 
+      res.send({ status:status, data: result.results });
       /* res.sendFile(publicPath); */
     }
   }
