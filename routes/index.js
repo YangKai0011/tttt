@@ -305,8 +305,8 @@ router.post('/update', async function (req, res) {
       break;
     }else{
       sqlPinJie += ',';
-        sqlPinJie += index[j] + '=?';
-        arrParam[j] = Object.values(param)[j+1];
+        sqlPinJie += index[i] + '=?';
+        arrParam[i] = Object.values(param)[i+1];
     }
   }
   arrParam.push(param.studentNumber)
