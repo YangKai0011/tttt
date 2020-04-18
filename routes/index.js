@@ -314,7 +314,8 @@ router.post('/update', async function (req, res) {
   console.log(arrParam);
   let update = new BaseSql(sqlPinJie,null ,arrParam);
   const result = await update.update();
-  res.send({ err: result.err, results: result.results });
+  let status = statues(result)
+  res.send({ status:status, results: result.results });
   /*   } */
 });
 
