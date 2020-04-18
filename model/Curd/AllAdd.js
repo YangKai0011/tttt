@@ -1,8 +1,8 @@
 const add = require('../../lib/student/add');
 const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
-
-class AllAdd extends add {
+const BaseSql = require('../../lib/student/BaseSql');
+class AllAdd extends BaseSql {
     addByInstruct(arr,callback) {
         const sql = 'insert into student(studentNumber, studentName, department, profession, grade, class) values(?,?,?,?,?,?)';
         pool.getConnection(function (err, conn) {

@@ -9,7 +9,7 @@ const AllSql = require('../dbunit/AllSql');
 const AllFind = require('../model/Curd/AllFind');
 const AllAdd = require('../model/Curd/AllAdd');
 const AllDel = require('../model/Curd/AllDel');
-const update = require('../lib/student/update');
+const BaseSql = require('../lib/student/BaseSql');
 const role = require('../model/Role');
 
 /* router.get('/', (req, res, next) => {
@@ -79,8 +79,8 @@ router.get('/operate', async (req, res, next) => {
       const results = await find.findDistributed();
       res.send({ err: results.err, results: results.results });
     }
-  } else if (param.role === 'Instructor') {
-    if (param.buildNumber || param.dormitoryNumber) {
+  } else if (req.userInfo[1].role === 'Instructor') {
+    if (param.type === 'findDormitory') {
       let column = param.buildNumber !== 'undefined' && param.dormitoryNumber !== 'undefined' ? 'and' : 'or';
       let field = AllSql.学生信息管理.role.Instructor.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
@@ -230,8 +230,8 @@ router.post('/update', async function (req, res) {
       }
     }
     arrParam.push(Object.values(param[i])[0]);
-    let $update = new update(sqlPinJie, arrParam);
-    const result = await $update.update();
+    let update = new BaseSql(sqlPinJie, arrParam);
+    const result = await update.update();
     res.send({ err: result.err, results: result.results });
   }
 });

@@ -1,8 +1,8 @@
-const $delete = require('../../lib/student/delete');
+
 const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
-
-class AllDel extends $delete{
+const BaseSql = require('../../lib/student/BaseSql');
+class AllDel extends BaseSql{
 
     deleteByStudentNumber(param) {
         let sqlPinJie = param[0];
