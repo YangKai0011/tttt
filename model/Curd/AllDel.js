@@ -14,7 +14,7 @@ class AllDel extends BaseSql{
             sqlPinJie += param[i];
           }
         }
-        const sql = `delete from student where studentNumber in(00000000)`;
+        const sql = `delete from student where studentNumber in(${sqlPinJie})`;
         return  new Promise(function (resolve, reject) {
           pool.query(sql, $callback(resolve, reject));
         });

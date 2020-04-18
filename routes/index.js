@@ -260,7 +260,8 @@ router.post('/delete', async function (req, res) {
   const param = req.body;
   let del = new AllDel();
   const result = await del.deleteByStudentNumber(param);
-  res.send({ err: result.err, results: result.results });
+  let status = statues(result);
+  res.send({ status:status, results: result.results });
 });
 
 //下载信息表
