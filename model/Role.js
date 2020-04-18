@@ -1,5 +1,5 @@
 module.exports = {
-    SelectHashTable = {
+    SelectHashTable : {
         'findDormitory': '按照宿舍号楼号查询',
         'findDistributed': '按照年级专业查询',
         'findDetail': '按照学号姓名查询'
