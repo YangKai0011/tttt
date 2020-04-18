@@ -299,14 +299,14 @@ router.post('/update', async function (req, res) {
   let arrKey = Object.keys(param);
   let index = arrKey.filter(item => item !== 'studentNumber');
   sqlPinJie = index[0] + '=?';
-  arrParam[0] = param.index[0];
+  arrParam[0] = Object.values(param)[1];
   for(let i = 1; i < index.length; i++){
     if(index.length === 1){
       break;
     }else{
       sqlPinJie += ',';
         sqlPinJie += index[j] + '=?';
-        arrParam[j] = Object.values(param)[j];
+        arrParam[j] = Object.values(param)[j+1];
     }
   }
   arrParam.push(param.studentNumber)
