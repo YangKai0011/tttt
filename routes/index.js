@@ -103,7 +103,7 @@ router.get('/operate', async (req, res, next) => {
       let modify = ['grade', 'profession', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone'];
       let invariable = ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone'];
       let status;
-      result.err !== [] ? status = false : status = true; 
+      result.err === null ? status = true : status = false; 
       res.send({ status:status, data: result.results, invariable: invariable, modify: modify });
     } else if (param.type === 'findDetail') {
       let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or';
