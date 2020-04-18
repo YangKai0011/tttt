@@ -312,7 +312,7 @@ router.post('/update', async function (req, res) {
   arrParam.push(param.studentNumber)
   console.log(sqlPinJie);
   console.log(arrParam);
-  let update = new BaseSql(sqlPinJie, arrParam);
+  let update = new BaseSql(sqlPinJie,null ,arrParam);
   const result = await update.update();
   res.send({ err: result.err, results: result.results });
   /*   } */
