@@ -25,7 +25,9 @@ let createStudent = `create table if not exists student(
 	dormitoryLeader varchar(5) COMMENT '宿舍长',
 	LeaderPhone varchar(11) COMMENT '宿舍长电话',
 	fatherPhone varchar(11) COMMENT '父亲电话',
-	motherPhone varchar(11) COMMENT '母亲电话',
+  motherPhone varchar(11) COMMENT '母亲电话',
+  stubName VARCHAR(5) COMMENT '宿管员姓名',
+	stubPhone VARCHAR(11) COMMENT '宿官员电话',
 	photo varchar(100) COMMENT '图片保存路径'
 )ENGINE=INNODB DEFAULT CHARSET=utf8;`;
 
