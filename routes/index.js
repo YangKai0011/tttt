@@ -28,11 +28,39 @@ const role = require('../model/Role');
 }); */
 
 //返回角色可做的操作
-router.get('/side',(req, res)=>{
-  if(req.userInfo[1].role === 'Instructor'){
-    res.send(role.Controller.oper);
+router.get('/side', (req, res) => {
+  switch (req.userInfo[1].role) {
+    case 'Controller':
+      res.send(role.Controller.oper);
+      break;
+    case 'Instructor':
+      res.send(role.Instructor.oper);
+      break;
+    case 'DeLeader':
+      res.send(role.DeLeader.oper);
+      break;
+    case 'House':
+      res.send(role.House.oper);
+      break;
   }
-})
+});
+
+router.get('/search', (req, res) => {
+  switch (req.userInfo[1].role) {
+    case 'Controller':
+      res.send(role.Controller.学生住宿信息管理.find);
+      break;
+    case 'Instructor':
+      res.send(role.Instructor.学生住宿信息管理.find);
+      break;
+    case 'DeLeader':
+      res.send(role.DeLeader.学生住宿信息管理.find);
+      break;
+    case 'House':
+      res.send(role.House.学生住宿信息管理.find);
+      break;
+  }
+});
 
 router.get('/operate', async (req, res, next) => {
   const param = req.query;
@@ -59,7 +87,7 @@ router.get('/operate', async (req, res, next) => {
       const results = await find.findDormitory();
       let modify = ['grade', 'profession', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone'];
       let invariable = ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone']
-      res.send({ err: results.err, results: results.results,invariable:invariable,modify:modify });
+      res.send({ err: results.err, results: results.results, invariable: invariable, modify: modify });
     } else if (param.studentName || param.studentNumber) {
       let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or';
       let field = AllSql.学生信息管理.role.Instructor.find.findDetail;
@@ -88,14 +116,14 @@ router.get('/operate', async (req, res, next) => {
       let find = new AllFind(field, column, [param.positions, param.dormitoryNumber]);
       const results = await find.findDormitory();
       res.send({ err: results.err, results: results.results });
-    }else if(param.grade || param.profession || param.department){
+    } else if (param.grade || param.profession || param.department) {
       let find = new AllFind();
       const results = await find.findStub(param);
       res.send({ err: results.err, results: results.results });
-    }else{
+    } else {
       let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or';
       let field = AllSql.学生信息管理.role.House.find.findDetail;
-      let find = new AllFind(field, column, [param.positions,param.studentName, param.studentNumber]);
+      let find = new AllFind(field, column, [param.positions, param.studentName, param.studentNumber]);
       const results = await find.findDetail();
       let photos = Object.values(results.results)[0].photo;
       const publicPath = path.resolve(__dirname, "../" + photos);
@@ -106,7 +134,7 @@ router.get('/operate', async (req, res, next) => {
 });
 
 router.get('/instructMessage', (req, res, next) => {
-  res.send({ status: '/instructInsert', behoove: ['studentName', 'department', 'profession', 'grade', 'class'], hiatus: ['phoneNumber', 'instructName', 'instructPhone', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone','stubName','stubPhone'], photo: 'photo' });
+  res.send({ status: '/instructInsert', behoove: ['studentName', 'department', 'profession', 'grade', 'class'], hiatus: ['phoneNumber', 'instructName', 'instructPhone', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone', 'stubName', 'stubPhone'], photo: 'photo' });
 });
 
 //导员单条插入信息
@@ -127,7 +155,7 @@ router.post('/instructInsert', multer({
     console.log(param);
     param.photo = 'public\\img\\' + number + '.' + ext;
     /* console.log(param.photo); */
-    let add = new AllAdd([param.studentNumber,param.studentName,param.department,param.profession,param.grade,param.class,param.phoneNumber,  param.instructName, param.instructPhone,param.buildNumber, param.dormitoryNumber, param.dormitoryLeader, param.LeaderPhone, param.fatherPhone, param.motherPhone,param.stubName,param.stubPhone, param.photo]);
+    let add = new AllAdd([param.studentNumber, param.studentName, param.department, param.profession, param.grade, param.class, param.phoneNumber, param.instructName, param.instructPhone, param.buildNumber, param.dormitoryNumber, param.dormitoryLeader, param.LeaderPhone, param.fatherPhone, param.motherPhone, param.stubName, param.stubPhone, param.photo]);
     const result = await add.addMessage();
     res.send({ err: result.err, results: result.results });
   }
@@ -150,8 +178,8 @@ router.post('/insert', multer({
             arr[j] = Object.values(data[i])[j];
           }
           let add = new AllAdd();
-          const result = add.addByInstruct(arr,(err, results)=>{
-            if(err){
+          const result = add.addByInstruct(arr, (err, results) => {
+            if (err) {
               res.json(err);
             }
           });
@@ -164,7 +192,7 @@ router.post('/insert', multer({
 });
 
 //删除
-router.post('/delete',async function (req, res) {
+router.post('/delete', async function (req, res) {
   const param = req.body;
   let del = new AllDel();
   const result = await del.deleteByStudentNumber(param);
@@ -175,15 +203,15 @@ router.post('/delete',async function (req, res) {
 router.get('/download', (req, res, next) => {
   const param = req.query;
   if (param.type === 'excel') {
-    readFile.readExcel('./public/files/学生信息登记表.xlsx',res);
-  } else if(param.type === 'word'){
-    readFile.readWord('./public/files/调宿信息登记表.docx',res);
+    readFile.readExcel('./public/files/学生信息登记表.xlsx', res);
+  } else if (param.type === 'word') {
+    readFile.readWord('./public/files/调宿信息登记表.docx', res);
   }
 
 });
 
 //导员修改信息
-router.post('/update',async function (req, res) {
+router.post('/update', async function (req, res) {
   const param = req.body;
   for (let i = 0; i < param.length; i++) {
     let sqlPinJie = null;
@@ -202,9 +230,9 @@ router.post('/update',async function (req, res) {
       }
     }
     arrParam.push(Object.values(param[i])[0]);
-   let $update = new update(sqlPinJie, arrParam);
-   const result = await $update.update();
-   res.send({ err: result.err, results: result.results });
+    let $update = new update(sqlPinJie, arrParam);
+    const result = await $update.update();
+    res.send({ err: result.err, results: result.results });
   }
 });
 module.exports = router;

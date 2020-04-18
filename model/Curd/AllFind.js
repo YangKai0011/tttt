@@ -1,16 +1,14 @@
-const find = require('../../lib/student/find');
+const BaseSql = require('../../lib/student/BaseSql');
 const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
 
 
-class AllFind extends find {
+class AllFind extends BaseSql {
 
     //按照宿舍号楼号查询学生信息
     findDormitory() {
         let arr = this.arr;
         const sql = `select ${this.field} from student where buildNumber=? ${this.column} dormitoryNumber=?;`;
-        console.log(sql);
-
         return new Promise(function (resolve, reject) {
             pool.query(sql, arr, $callback(resolve, reject));
         });
@@ -31,7 +29,6 @@ class AllFind extends find {
             let sql = `select DISTINCT ${this.field} from student where department=? ${num} (grade=? ${this.column}  profession like '%${profession}%') `;
             console.log(sql);
             console.log(arr);
-
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });
