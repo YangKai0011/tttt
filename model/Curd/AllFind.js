@@ -8,7 +8,7 @@ class AllFind extends BaseSql {
     //按照宿舍号楼号查询学生信息
     findDormitory() {
         let arr = this.arr;
-        const sql = `select ${this.field} from student where buildNumber=? ${this.column} dormitoryNumber=?;`;
+        const sql = `select ${this.field} from student where buildNumber=? ${this.column}  dormitoryNumber=?;`;
         return new Promise(function (resolve, reject) {
             pool.query(sql, arr, $callback(resolve, reject));
         });

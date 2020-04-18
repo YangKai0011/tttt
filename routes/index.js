@@ -63,6 +63,7 @@ router.get('/operate', async (req, res, next) => {
       } else {
         column = 'or';
       }
+      
       let field = AllSql.学生信息管理.role.Controller.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
       const result = await find.findDormitory();
@@ -101,6 +102,13 @@ router.get('/operate', async (req, res, next) => {
       } else {
         column = 'or';
       }
+      /* parames(param.buildNumber,param.dormitoryNumber);
+      console.log('9999999999999999');
+      
+      console.log(column);
+      console.log(param); */
+      
+      
       let field = AllSql.学生信息管理.role.Instructor.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
       const result = await find.findDormitory();
@@ -291,7 +299,7 @@ router.post('/update', async function (req, res) {
   let arrKey = Object.keys(param);
   let index = arrKey.filter(item => item !== 'studentNumber');
   sqlPinJie = index[0] + '=?';
-  arrParam[0] = Object.values(param)[0];
+  arrParam[0] = param.index[0];
   for(let i = 1; i < index.length; i++){
     if(index.length === 1){
       break;
@@ -314,5 +322,19 @@ router.post('/update', async function (req, res) {
 function statues(result) {
   let status;
   return result.err !== null ? status = false : status = true;
-}
+};
+/* return function parames(xx,yy){
+  let column = null;
+  if(xx && yy && (xx !== 'undefined' && yy !== 'undefined')){
+    column = 'and';
+  } else if(xx && !yy){
+    column = 'or';
+    yy = 'undefined';
+  }else if(!xx && yy){
+    column = 'or';
+    xx = 'undefined';
+  }else{
+    column = 'or';
+  }
+} */
 module.exports = router;
