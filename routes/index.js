@@ -65,42 +65,63 @@ router.get('/search', (req, res) => {
 router.get('/operate', async (req, res, next) => {
   const param = req.query;
   console.log(param);
-  if (param.role === 'Controller') {
-    if (param.buildNumber || param.dormitoryNumber) {
+  if (req.userInfo[1].role  ===  'Controller') {
+    if (param.type === 'findDormitory') {
       let column = param.dormitoryNumber !== 'undefined' && param.buildNumber !== 'undefined' ? 'and' : 'or';
       let field = AllSql.学生信息管理.role.Controller.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
-      const results = await find.findDormitory();
-      res.send({ err: results.err, results: results.results });
+      const result = await find.findDormitory();
+      let status;
+      result.err !== [] ? status = false : status = true; 
+      res.send({ status: status, results: result.results });
     } else {
       let column = param.grade !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or';
       let field = AllSql.学生信息管理.role.Controller.find.findDistributed;
       let find = new AllFind(field, column, [param.grade, param.profession]);
-      const results = await find.findDistributed();
-      res.send({ err: results.err, results: results.results });
+      const result = await find.findDistributed();
+      let status;
+      result.err !== [] ? status = false : status = true; 
+      res.send({ status: status, results: result.results });
     }
   } else if (req.userInfo[1].role === 'Instructor') {
+    //TODO
     if (param.type === 'findDormitory') {
-      let column = param.buildNumber !== 'undefined' && param.dormitoryNumber !== 'undefined' ? 'and' : 'or';
+      let column = null;
+      /* let column = param.buildNumber || param.dormitoryNumber ? 'and' : 'or'; */
+      if(param.buildNumber && param.dormitoryNumber){
+       column = 'and'
+      }else if(param.buildNumber && !param.dormitoryNumber){
+          column = 'or';
+          param.dormitoryNumber = 'undefined';
+      }else{
+        column = 'or';
+        param.buildNumber = 'undefined';
+      }
       let field = AllSql.学生信息管理.role.Instructor.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
-      const results = await find.findDormitory();
+      const result = await find.findDormitory();
       let modify = ['grade', 'profession', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone'];
-      let invariable = ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone']
-      res.send({ err: results.err, results: results.results, invariable: invariable, modify: modify });
-    } else if (param.studentName || param.studentNumber) {
+      let invariable = ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone'];
+      let status;
+      result.err !== [] ? status = false : status = true; 
+      res.send({ status:status, data: result.results, invariable: invariable, modify: modify });
+    } else if (param.type === 'findDetail') {
       let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or';
       let field = AllSql.学生信息管理.role.Instructor.find.findDetail;
       let find = new AllFind(field, column, [param.studentName, param.studentNumber]);
-      const results = await find.findDetail();
-      res.send({ err: results.err, results: results.results });
+      const result = await find.findDetail();
+      let status;
+      result.err !== [] ? status = false : status = true; 
+      res.send({ status:status, results: result.results });
     } else {
       let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or';
       let field = AllSql.学生信息管理.role.Instructor.find.findDistributed;
       //TODO
-      let find = new AllFind(field, column, [param.position, param.positions, param.profession]);
-      const results = await find.findDistributed();
-      res.send({ err: results.err, results: results.results });
+      let find = new AllFind(field, column, [req.userInfo[1].positions, param.positions, param.profession]);
+      const result = await find.findDistributed();
+      let status;
+      result.err !== [] ? status = false : status = true; 
+      res.send({ status: status, results: result.results });
     }
   } else if (param.role === 'DeLeader') {
     let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or';
