@@ -51,7 +51,6 @@ router.get('/operate', async (req, res, next) => {
   console.log(param);
   if (req.userInfo[1].role  ===  'Controller') {
     if (param.type === 'findDormitory') {
-      /* let column = param.dormitoryNumber !== 'undefined' && param.buildNumber !== 'undefined' ? 'and' : 'or'; */
       let column = null;
       if(param.buildNumber && param.dormitoryNumber && (param.buildNumber !== 'undefined' && param.dormitoryNumber !== 'undefined')){
        column = 'and'
@@ -67,11 +66,9 @@ router.get('/operate', async (req, res, next) => {
       let field = AllSql.学生信息管理.role.Controller.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
       const result = await find.findDormitory();
-      let status;
-      result.err !== null ? status = false : status = true; 
-      res.send({ status: status, data: result.results });
+      let status = statues(result);
+      res.send({ status: status, data: result.results,invariable:['studentNumber','studentName','grade','department','profession','class','phoneNumber','instructName','instructPhone','stubName','stubPhone'] });
     } else {
-      /* let column = param.grade !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or'; */
       let column = null;
       if(param.grade && param.profession && (param.grade !== 'undefined' && param.profession !== 'undefined')){
        column = 'and'
@@ -87,12 +84,10 @@ router.get('/operate', async (req, res, next) => {
       let field = AllSql.学生信息管理.role.Controller.find.findDistributed;
       let find = new AllFind(field, column, [param.grade, param.profession]);
       const result = await find.findDistributed();
-      let status;
-      result.err !== null ? status = false : status = true; 
-      res.send({ status: status, results: result.results });
+      let status = statues(result);
+      res.send({ status: status, data: result.results,invariable:['buildNumber','dormitoryNumber'] });
     }
   } else if (req.userInfo[1].role === 'Instructor') {
-    //TODO
     if (param.type === 'findDormitory') {
       let column = null;
       if(param.buildNumber && param.dormitoryNumber && (param.buildNumber !== 'undefined' && param.dormitoryNumber !== 'undefined')){
@@ -109,13 +104,11 @@ router.get('/operate', async (req, res, next) => {
       let field = AllSql.学生信息管理.role.Instructor.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
       const result = await find.findDormitory();
-      let modify = ['grade', 'profession', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone'];
-      let invariable = ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone'];
-      let status;
-      result.err === null ? status = true : status = false; 
+      let modify = ['studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone','dormitoryLeader','LeaderPhone'];
+      let invariable = ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone','dormitoryLeader','LeaderPhone'];
+      let status = statues(result);
       res.send({ status:status, data: result.results, invariable: invariable, modify: modify });
     } else if (param.type === 'findDetail') {
-     /*  let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or'; */
      let column = null;
      if(param.studentName && param.studentNumber && (param.studentName !== 'undefined' && param.studentNumber !== 'undefined')){
       column = 'and'
@@ -131,21 +124,16 @@ router.get('/operate', async (req, res, next) => {
       let field = AllSql.学生信息管理.role.Instructor.find.findDetail;
       let find = new AllFind(field, column, [param.studentName, param.studentNumber]);
       const result = await find.findDetail();
-      let status;
-      result.err !== null ? status = false : status = true; 
-      res.send({ status:status, results: result.results ,invariable:['studentNumber','studentName','grade','profession','class','phoneNumber','buildNumber','dormitoryNumber','dormitoryLeader','LeaderPhone','fatherPhone','motherPhone','stubName','stubPhone']});
+      let status = statues(result);
+      res.send({ status:status, data: result.results ,invariable:['studentNumber','studentName','grade','profession','class','phoneNumber','buildNumber','dormitoryNumber','dormitoryLeader','LeaderPhone','fatherPhone','motherPhone','stubName','stubPhone']});
     } else {
-      /* let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or'; */
       let field = AllSql.学生信息管理.role.Instructor.find.findDistributed;
-      //TODO
-      let find = new AllFind(field, column, [req.userInfo[1].positions.split(',')[0], req.userInfo[1].positions.split(',')[1], param.profession]);
+      let find = new AllFind(field, 'and',[req.userInfo[1].positions.split(',')[0], req.userInfo[1].positions.split(',')[1], param.profession]);
       const result = await find.findDistributed();
-      let status;
-      result.err !== null ? status = false : status = true; 
+      let status = statues(result);
       res.send({ status: status, data: result.results,invariable:['buildNumber','dormitoryNumber'] });
     }
   } else if (param.role === 'DeLeader') {
-    /* let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or'; */
     let field = AllSql.学生信息管理.role.Instructor.find.findDistributed;
     let column = null;
     if(param.grade && param.profession && (param.grade !== 'undefined' && param.profession !== 'undefined')){
@@ -159,11 +147,9 @@ router.get('/operate', async (req, res, next) => {
     }else{
       column = 'or';
     }
-    //TODO
     let find = new AllFind(field, column, [req.userInfo[1].positions, param.grade, param.profession]);
     const result = await find.findDistributed();
-    let status;
-    result.err !== null ? status = false : status = true; 
+    let status = statues(result);
     res.send({ status: status, data: result.results,invariable:['buildNumber','dormitoryNumber'] });
   } else if (param.role === 'House') {
     if (param.type === 'findDormitory') {
@@ -171,17 +157,14 @@ router.get('/operate', async (req, res, next) => {
       let field = AllSql.学生信息管理.role.House.find.findDormitory;
       let find = new AllFind(field, column, [req.userInfo[1].positions, param.dormitoryNumber]);
       const result = await find.findDormitory();
-      let status;
-      result.err !== null ? status = false : status = true; 
+      let status = statues(result);
       res.send({ status: status, data: result.results ,invariable:['studentNumber','studentName','grade','department','profession','class','phoneNumber','instructName','instructPhone','dormitoryLeader','LeaderPhone','fatherPhone','motherPhone']});
     } else if (param.type === 'findStub') {
       let find = new AllFind();
       const result = await find.findStub(param,req.userInfo[1].positions);
-      let status;
-      result.err !== null ? status = false : status = true; 
+      let status = statues(result);
       res.send({status:status, data: result.results ,invariable:['studentNumber','studentName','department','profession','grade','class','phoneNumber','instructName','instructPhone','dormitoryNumber','dormitoryLeader','LeaderPhone','fatherPhone','motherPhone']});
     } else {
-      /* let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or'; */
       let column = null;
       if(param.studentName && param.studentNumber && (param.studentName !== 'undefined' && param.studentNumber !== 'undefined')){
        column = 'and'
@@ -199,8 +182,7 @@ router.get('/operate', async (req, res, next) => {
       const result = await find.findDetail();
       let photos = Object.values(results.results)[0].photo;
       const publicPath = path.resolve(__dirname, "../" + photos);
-      let status;
-      result.err !== null ? status = false : status = true; 
+      let status = statues(result);
       res.send({ status:status, data: result.results,invariable:['grade', 'profession', 'dormitoryNumber', 'phoneNumber', 'instructName', 'instructPhone', 'photo'] });
       /* res.sendFile(publicPath); */
     }
@@ -309,4 +291,10 @@ router.post('/update', async function (req, res) {
     res.send({ err: result.err, results: result.results });
   }
 });
+
+
+function statues(result){
+  let status;
+  return result.err !== null ? status = false : status = true; 
+}
 module.exports = router;

@@ -26,7 +26,7 @@ class AllFind extends BaseSql {
         } else {
             let profession = arr[2];
             /* let num = arr[1] === 'undefined' && arr[2] === 'undefined' ? 'or' : 'and'; */
-            let sql = `select DISTINCT ${this.field} from student where department=? and (grade=? and  profession like '%${profession}%') `;
+            let sql = `select DISTINCT ${this.field} from student where department=? and (grade=? ${this.column}  profession like '%${profession}%') `;
             console.log(sql);
             console.log(arr);
             return new Promise(function (resolve, reject) {
@@ -44,6 +44,10 @@ class AllFind extends BaseSql {
             });
         }else{
             const sql = `SELECT ${this.field} FROM  student where studentName=? ${this.column} studentNumber=? `;
+            console.log(sql);
+            console.log(arr);
+            
+            
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });
@@ -54,7 +58,6 @@ class AllFind extends BaseSql {
             let sqlPinJie = null; let sqlArr = [];
             const positions = position;
             console.log(positions);
-            
             //删除无关的键值对
             delete param.type; delete param.role;
             let arr = Object.keys(param);
@@ -73,10 +76,10 @@ class AllFind extends BaseSql {
                     sqlArr = [positions, param[index[0]], param[index[1]], param[index[2]]];
                     break;
             }
-            param['type'] = 'search'; param['role'] = 'House'; param['positions'] = positions;
+            param['type'] = 'findStub'; param['role'] = 'House'; param['positions'] = positions;
             const sql = `SELECT studentNumber,studentName,department,profession,grade,class,phoneNumber,instructName,instructPhone,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone FROM  student WHERE buildNumber=? and (${sqlPinJie})`;
             return new Promise(function (resolve, reject) {
-                pool.query(sql, sqlArr, callback(resolve, reject));
+                pool.query(sql, sqlArr, $callback(resolve, reject));
             });
         }
     }

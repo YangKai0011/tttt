@@ -24,15 +24,15 @@ app.use(allowCors); //跨域中间件
 //路由
 app.use('/user', accentRouter);
 app.use((req, res, next)=>{
-  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODcxOTM3MDEsImV4cCI6MTU4NzI4MDEwMX0.JkVHKtS-wZyzrHp6LZOmwroqz4M7Zwj9q_xW3vEiFN4' */;
+  let token =  /* req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiYWNjZW50Ijoic3R1YjEiLCJyb2xlIjoiSG91c2UiLCJwb3NpdGlvbnMiOiIxIiwiaWF0IjoxNTg3MjE1OTg3LCJleHAiOjE1ODczMDIzODd9.v32tr7mkqDjfDVzDcIpmHi_LwlPhvHz_30okS_DuoaY';
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
     
     console.log(req.userInfo[1].role);
     console.log('111111111111111');
-    console.log(req.userInfo[1].positions.split(',')[0]);
-    console.log(req.userInfo[1].positions.split(',')[1]);
+   /*  console.log(req.userInfo[1].positions.split(',')[0]);
+    console.log(req.userInfo[1].positions.split(',')[1]); */
     return next();
   }else{
     res.json({ status: false });
