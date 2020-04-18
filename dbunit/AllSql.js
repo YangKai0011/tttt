@@ -18,7 +18,7 @@ module.exports = {
                 find: {
                     'findDormitory': 'studentNumber,studentName,grade,department,profession,class,phoneNumber,fatherPhone,motherPhone',
                     'findDistributed': 'buildNumber,dormitoryNumber',
-                    'findDetail': 'studentNumber,studentName,grade,department,profession,class,phoneNumber,buildNumber,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone,stubName,stubPhone'
+                    'findDetail': 'studentNumber,studentName,grade,profession,class,phoneNumber,buildNumber,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone,stubName,stubPhone'
                 },
                 del: ['deleteByStudentNumber'],
                 update: ['update']

@@ -11,22 +11,6 @@ const AllAdd = require('../model/Curd/AllAdd');
 const AllDel = require('../model/Curd/AllDel');
 const BaseSql = require('../lib/student/BaseSql');
 const role = require('../model/Role');
-
-/* router.get('/', (req, res, next) => {
-  const param = req.query;
-  switch (param.role) {
-    case 'Controller':
-      res.send(AllSql.学生信息管理.role.Controller);
-      break;
-    case 'Instructor':
-      res.send(AllSql.学生信息管理.role.Instructor);
-      break;
-    case 'DeLeader':
-      res.send(AllSql.学生信息管理.role.DeLeader);get
-      break;
-  }
-}); */
-
 //返回角色可做的操作
 router.get('/side', (req, res) => {
   switch (req.userInfo[1].role) {
@@ -149,7 +133,7 @@ router.get('/operate', async (req, res, next) => {
       const result = await find.findDetail();
       let status;
       result.err !== null ? status = false : status = true; 
-      res.send({ status:status, results: result.results });
+      res.send({ status:status, results: result.results ,invariable:['studentNumber','studentName','grade','profession','class','phoneNumber','buildNumber','dormitoryNumber','dormitoryLeader','LeaderPhone','fatherPhone','motherPhone','stubName','stubPhone']});
     } else {
       /* let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or'; */
       let field = AllSql.学生信息管理.role.Instructor.find.findDistributed;
@@ -158,7 +142,7 @@ router.get('/operate', async (req, res, next) => {
       const result = await find.findDistributed();
       let status;
       result.err !== null ? status = false : status = true; 
-      res.send({ status: status, data: result.results });
+      res.send({ status: status, data: result.results,invariable:['buildNumber','dormitoryNumber'] });
     }
   } else if (param.role === 'DeLeader') {
     /* let column = param.positions !== 'undefined' && param.profession !== 'undefined' ? 'and' : 'or'; */
@@ -180,7 +164,7 @@ router.get('/operate', async (req, res, next) => {
     const result = await find.findDistributed();
     let status;
     result.err !== null ? status = false : status = true; 
-    res.send({ status: status, data: result.results });
+    res.send({ status: status, data: result.results,invariable:['buildNumber','dormitoryNumber'] });
   } else if (param.role === 'House') {
     if (param.type === 'findDormitory') {
       let column =  'and';
@@ -189,13 +173,13 @@ router.get('/operate', async (req, res, next) => {
       const result = await find.findDormitory();
       let status;
       result.err !== null ? status = false : status = true; 
-      res.send({ status: status, data: result.results });
+      res.send({ status: status, data: result.results ,invariable:['studentNumber','studentName','grade','department','profession','class','phoneNumber','instructName','instructPhone','dormitoryLeader','LeaderPhone','fatherPhone','motherPhone']});
     } else if (param.type === 'findStub') {
       let find = new AllFind();
       const result = await find.findStub(param,req.userInfo[1].positions);
       let status;
       result.err !== null ? status = false : status = true; 
-      res.send({status:status, data: result.results });
+      res.send({status:status, data: result.results ,invariable:['studentNumber','studentName','department','profession','grade','class','phoneNumber','instructName','instructPhone','dormitoryNumber','dormitoryLeader','LeaderPhone','fatherPhone','motherPhone']});
     } else {
       /* let column = param.studentName !== 'undefined' && param.studentNumber !== 'undefined' ? 'and' : 'or'; */
       let column = null;
@@ -217,7 +201,7 @@ router.get('/operate', async (req, res, next) => {
       const publicPath = path.resolve(__dirname, "../" + photos);
       let status;
       result.err !== null ? status = false : status = true; 
-      res.send({ status:status, data: result.results });
+      res.send({ status:status, data: result.results,invariable:['grade', 'profession', 'dormitoryNumber', 'phoneNumber', 'instructName', 'instructPhone', 'photo'] });
       /* res.sendFile(publicPath); */
     }
   }
