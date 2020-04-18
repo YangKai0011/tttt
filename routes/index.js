@@ -51,7 +51,7 @@ router.get('/search', (req, res) => {
       res.send(role.Controller.学生住宿信息管理.find);
       break;
     case 'Instructor':
-      res.send(role.Instructor.学生住宿信息管理.find);
+      res.send({SelectOptions:role.Instructor.学生住宿信息管理.find,SelectHashTable:role.SelectHashTable});
       break;
     case 'DeLeader':
       res.send(role.DeLeader.学生住宿信息管理.find);
