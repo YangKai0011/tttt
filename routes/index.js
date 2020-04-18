@@ -48,16 +48,16 @@ router.get('/side', (req, res) => {
 router.get('/search', (req, res) => {
   switch (req.userInfo[1].role) {
     case 'Controller':
-      res.send(role.Controller.学生住宿信息管理.find);
+      res.send({SelectOptions:role.Controller.学生住宿信息管理.find,SelectHashTable:role.SelectHashTable});
       break;
     case 'Instructor':
       res.send({SelectOptions:role.Instructor.学生住宿信息管理.find,SelectHashTable:role.SelectHashTable});
       break;
     case 'DeLeader':
-      res.send(role.DeLeader.学生住宿信息管理.find);
+      res.send({SelectOptions:role.DeLeader.学生住宿信息管理.find,SelectHashTable:role.SelectHashTable});
       break;
     case 'House':
-      res.send(role.House.学生住宿信息管理.find);
+      res.send({SelectOptions:role.House.学生住宿信息管理.find,SelectHashTable:role.SelectHashTable});
       break;
   }
 });
