@@ -167,15 +167,12 @@ router.post('/insert', multer({
             if (err) {
               let str = err;
               let start = str.indexOf('values') + 7;
-              console.log('333333333333333333');
+    
               res.json({status: '添加失败',msg:str.slice(start, start+14)});
-              /* res.send(err); */
             }
           });
         }
       } else {
-        console.log(44444444444444444444444444);
-        
         res.json(data.err);
       }
     });
