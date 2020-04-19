@@ -136,7 +136,7 @@ router.get('/instructMessage', (req, res, next) => {
 });
 
 //导员单条插入信息
-router.post('/instructInsert', (req, res, next) => {
+router.post('/instructInsert',async (req, res, next) => {
   const param = req.body;
   console.log(param);
   let add = new AllAdd();
