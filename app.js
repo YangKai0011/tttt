@@ -11,8 +11,7 @@ var indexRouter = require('./routes/index');
 var accentRouter = require('./routes/accent');
 const appraisalRouter = require('./routes/appraisal');
 const sideRouter = require('./routes/side');
-
-
+const downloadRouter = require('./routes/download');
 var app = express();
 
 app.use(logger('dev'));
@@ -23,8 +22,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(allowCors); //跨域中间件
 //路由
 app.use('/user', accentRouter);
+app.use('/download', downloadRouter);
 app.use((req, res, next)=>{
-  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODcyNTg4MDYsImV4cCI6MTU4NzM0NTIwNn0.3ILjyYZhowU7iB7ZW8Vj1Ob0GBP54heocglCB7SmYsQ' */;
+  let token =  req.headers['authorization'];
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
