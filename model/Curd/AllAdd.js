@@ -11,8 +11,8 @@ class AllAdd extends BaseSql {
                     if (err) throw err;
                     conn.query(sql, arr, function (err, results) {
                         if (err) {
-                            console.log(err);
-                            console.log(err.sql);
+                           /*  console.log(err);
+                            console.log(err.sql); */
                             //回滚事务
                             conn.rollback(function () {
                                 return callback(err.sql, null);

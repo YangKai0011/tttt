@@ -141,7 +141,9 @@ router.post('/instructInsert',async (req, res, next) => {
   console.log(param);
   let add = new AllAdd();
   const result = await add.addMessage([param.studentNumber, param.studentName, param.department, param.profession, param.grade, param.class, param.phoneNumber, param.instructName, param.instructPhone, param.buildNumber, param.dormitoryNumber, param.dormitoryLeader, param.LeaderPhone, param.fatherPhone, param.motherPhone, param.stubName, param.stubPhone]);
-  res.send({ err: result.err, results: result.results });
+  let status = null;
+  if(result.err === null){status = true;}else{status = false}
+  res.send({ status:status, results: result.results });
 });
 
 //导员批量导入信息
@@ -163,11 +165,17 @@ router.post('/insert', multer({
           let add = new AllAdd();
           add.addByInstruct(arr, (err, results) => {
             if (err) {
-              res.json(err);
+              let str = err;
+              let start = str.indexOf('values') + 7;
+              console.log('333333333333333333');
+              res.json({status: '添加失败',msg:str.slice(start, start+14)});
+              /* res.send(err); */
             }
           });
         }
       } else {
+        console.log(44444444444444444444444444);
+        
         res.json(data.err);
       }
     });
