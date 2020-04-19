@@ -147,7 +147,7 @@ router.post('/instructInsert', (req, res, next) => {
 //导员批量导入信息
 router.post('/insert', multer({
   dest: 'public/xlsx'
-}).single('file'),async function (req, res, next) {
+}).single('file'), function (req, res, next) {
   if (req.file.length === 0) {
     return res.json({ error: '上传文件不能为空' });
   } else {
@@ -161,11 +161,9 @@ router.post('/insert', multer({
             arr[j] = Object.values(data[i])[j];
           }
           let add = new AllAdd();
-          const result =await add.addByInstruct(arr, (err, results) => {
+          add.addByInstruct(arr, (err, results) => {
             if (err) {
               res.json(err);
-            }else{
-              res.send({result:result.results})
             }
           });
         }
