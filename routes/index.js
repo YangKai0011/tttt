@@ -32,16 +32,16 @@ router.get('/side', (req, res) => {
 router.get('/search', (req, res) => {
   switch (req.userInfo[1].role) {
     case 'Controller':
-      res.send({ SelectOptions: role.Controller.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable });
+      res.send({ SelectOptions: role.Controller.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable,role:req.userInfo[1].role });
       break;
     case 'Instructor':
-      res.send({ SelectOptions: role.Instructor.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable });
+      res.send({ SelectOptions: role.Instructor.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable ,role:req.userInfo[1].role});
       break;
     case 'DeLeader':
-      res.send({ SelectOptions: role.DeLeader.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable });
+      res.send({ SelectOptions: role.DeLeader.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable,role:req.userInfo[1].role });
       break;
     case 'House':
-      res.send({ SelectOptions: role.House.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable });
+      res.send({ SelectOptions: role.House.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable, role:req.userInfo[1].role });
       break;
   }
 });
@@ -102,13 +102,8 @@ router.get('/operate', async (req, res, next) => {
       } else {
         column = 'or';
       }
-      /* parames(param.buildNumber,param.dormitoryNumber);
-      console.log('9999999999999999');
-      
-      console.log(column);
-      console.log(param); */
-      
-      
+     /*  let num = parames(param.buildNumber,param.dormitoryNumber);
+      let column = num[0]; param.buildNumber = num[1]; param.dormitoryNumber = num[1]; */
       let field = AllSql.学生信息管理.role.Instructor.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
       const result = await find.findDormitory();
@@ -278,23 +273,6 @@ router.get('/download', (req, res, next) => {
 //导员修改信息
 router.post('/update', async function (req, res) {
   const param = req.body;
-  /* for (let i = 0; i < param.length; i++) {
-    let sqlPinJie = null;
-    let arrParam = [];
-    let arrKey = Object.keys(param[i]);
-    let index = arrKey.filter(item => item !== 'studentNumber');
-    sqlPinJie = index[0] + '=?';
-    arrParam[0] = Object.values(param[i])[1];
-    for (let j = 1; j < index.length; j++) {
-      if (index.length === 1) {
-        break;
-      } else {
-        sqlPinJie += ',';
-        sqlPinJie += index[j] + '=?';
-        arrParam[j] = Object.values(param[i])[j + 1];
-      }
-    }
-    arrParam.push(Object.values(param[i])[0]); */
   let sqlPinJie = null;
   let arrParam = [];
   let arrKey = Object.keys(param);
@@ -316,7 +294,7 @@ router.post('/update', async function (req, res) {
   let update = new BaseSql(sqlPinJie,null ,arrParam);
   const result = await update.update();
   let status = statues(result)
-  res.send({ status:status, results: result.results });
+  res.send({ status:status, results: result.results.affectedRows});
   /*   } */
 });
 
@@ -325,18 +303,19 @@ function statues(result) {
   let status;
   return result.err !== null ? status = false : status = true;
 };
-/* return function parames(xx,yy){
-  let column = null;
-  if(xx && yy && (xx !== 'undefined' && yy !== 'undefined')){
-    column = 'and';
-  } else if(xx && !yy){
-    column = 'or';
-    yy = 'undefined';
-  }else if(!xx && yy){
-    column = 'or';
-    xx = 'undefined';
-  }else{
-    column = 'or';
-  }
+/* function parames(param_1,param_2){
+   let column = null;
+      if (param_1 && param_2 && (param_1 !== 'undefined' && param_2 !== 'undefined')) {
+        column = 'and'
+      } else if (param_1 && !param_2) {
+        column = 'or';
+        param_2 = 'undefined';
+      } else if (!param_1 && param_2) {
+        column = 'or';
+        param_1 = 'undefined';
+      } else {
+        column = 'or';
+      }
+    return [column, param_1, param_2];
 } */
 module.exports = router;

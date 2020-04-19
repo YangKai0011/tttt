@@ -24,7 +24,7 @@ app.use(allowCors); //跨域中间件
 //路由
 app.use('/user', accentRouter);
 app.use((req, res, next)=>{
-  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODcyMjMwMzEsImV4cCI6MTU4NzMwOTQzMX0.AYQbC-9MU2_F2grX_C-bwQUW1w6gOHGw7rrXU6Yf6e0'; */
+  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODcyNTg4MDYsImV4cCI6MTU4NzM0NTIwNn0.3ILjyYZhowU7iB7ZW8Vj1Ob0GBP54heocglCB7SmYsQ' */;
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
