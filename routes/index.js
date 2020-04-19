@@ -132,13 +132,16 @@ router.get('/operate', async (req, res, next) => {
 });
 
 router.get('/instructMessage', (req, res, next) => {
-  res.send({ status: '/instructInsert', behoove: ['studentName', 'department', 'profession', 'grade', 'class'], hiatus: ['phoneNumber', 'instructName', 'instructPhone', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone', 'stubName', 'stubPhone'], photo: 'photo' });
+  res.send({ behoove: ['studentName', 'department', 'profession', 'grade', 'class'], hiatus: ['phoneNumber', 'instructName', 'instructPhone', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone', 'stubName', 'stubPhone'], photo: 'photo' });
 });
 
 //导员单条插入信息
 router.post('/instructInsert', multer({
   dest: 'public/img'
 }).single('photo'), async function (req, res, next) {
+  console.log(req);
+  console.log(req.body);
+  
   if (req.file.length === 0) {
     res.render("error", { message: "上传图片为空" });
     return;
