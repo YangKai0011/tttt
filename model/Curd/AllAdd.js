@@ -37,7 +37,9 @@ class AllAdd extends BaseSql {
         /* let sqlArr = this.arr;
         console.log(sqlArr);
          */
-        const sql = 'insert into student(studentNumber,studentName,department,profession,grade,class,phoneNumber,instructName,instructPhone,buildNumber,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone,stubName,stubPhone,photo) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+        console.log(sqlArr);
+        
+        const sql = 'insert into student(studentNumber,studentName,department,profession,grade,class,phoneNumber,instructName,instructPhone,buildNumber,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone,stubName,stubPhone) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         return new Promise(function (resolve, reject) {
           pool.query(sql,sqlArr , $callback(resolve, reject));
         });

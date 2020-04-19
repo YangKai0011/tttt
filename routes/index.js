@@ -32,16 +32,16 @@ router.get('/side', (req, res) => {
 router.get('/search', (req, res) => {
   switch (req.userInfo[1].role) {
     case 'Controller':
-      res.send({ SelectOptions: role.Controller.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable,role:req.userInfo[1].role });
+      res.send({ SelectOptions: role.Controller.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable, role: req.userInfo[1].role });
       break;
     case 'Instructor':
-      res.send({ SelectOptions: role.Instructor.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable ,role:req.userInfo[1].role});
+      res.send({ SelectOptions: role.Instructor.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable, role: req.userInfo[1].role });
       break;
     case 'DeLeader':
-      res.send({ SelectOptions: role.DeLeader.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable,role:req.userInfo[1].role });
+      res.send({ SelectOptions: role.DeLeader.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable, role: req.userInfo[1].role });
       break;
     case 'House':
-      res.send({ SelectOptions: role.House.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable, role:req.userInfo[1].role });
+      res.send({ SelectOptions: role.House.学生住宿信息管理.find, SelectHashTable: role.SelectHashTable, role: req.userInfo[1].role });
       break;
   }
 });
@@ -51,7 +51,7 @@ router.get('/operate', async (req, res, next) => {
   console.log(param);
   if (req.userInfo[1].role === 'Controller' && param.role === 'Controller') {
     if (param.type === 'findDormitory') {
-      let num = parames(param.buildNumber,param.dormitoryNumber);
+      let num = parames(param.buildNumber, param.dormitoryNumber);
       let column = num[0]; param.buildNumber = num[1]; param.dormitoryNumber = num[2];
       let field = AllSql.学生信息管理.role.Controller.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
@@ -59,7 +59,7 @@ router.get('/operate', async (req, res, next) => {
       let status = statues(result);
       res.send({ status: status, data: result.results, invariable: ['studentNumber', 'studentName', 'grade', 'department', 'profession', 'class', 'phoneNumber', 'instructName', 'instructPhone', 'stubName', 'stubPhone'] });
     } else {
-      let num = parames(param.grade,param.profession);
+      let num = parames(param.grade, param.profession);
       let column = num[0]; param.grade = num[1]; param.profession = num[2];
       let field = AllSql.学生信息管理.role.Controller.find.findDistributed;
       let find = new AllFind(field, column, [param.grade, param.profession]);
@@ -69,7 +69,7 @@ router.get('/operate', async (req, res, next) => {
     }
   } else if (req.userInfo[1].role === 'Instructor' && param.role === 'Instructor') {
     if (param.type === 'findDormitory') {
-      let num = parames(param.buildNumber,param.dormitoryNumber);
+      let num = parames(param.buildNumber, param.dormitoryNumber);
       let column = num[0]; param.buildNumber = num[1]; param.dormitoryNumber = num[2];
       let field = AllSql.学生信息管理.role.Instructor.find.findDormitory;
       let find = new AllFind(field, column, [param.buildNumber, param.dormitoryNumber]);
@@ -79,7 +79,7 @@ router.get('/operate', async (req, res, next) => {
       let status = statues(result);
       res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
     } else if (param.type === 'findDetail') {
-      let num = parames(param.studentName,param.studentNumber);
+      let num = parames(param.studentName, param.studentNumber);
       let column = num[0]; param.studentName = num[1]; param.studentNumber = num[2];
       let field = AllSql.学生信息管理.role.Instructor.find.findDetail;
       let find = new AllFind(field, column, [param.studentName, param.studentNumber]);
@@ -95,7 +95,7 @@ router.get('/operate', async (req, res, next) => {
     }
   } else if (param.role === 'DeLeader' && req.userInfo[1].role === 'DeLeader') {
     let field = AllSql.学生信息管理.role.Instructor.find.findDistributed;
-    let num = parames(param.grade,param.profession);
+    let num = parames(param.grade, param.profession);
     let column = num[0]; param.grade = num[1]; param.profession = num[2];
     let find = new AllFind(field, column, [req.userInfo[1].positions, param.grade, param.profession]);
     const result = await find.findDistributed();
@@ -115,7 +115,7 @@ router.get('/operate', async (req, res, next) => {
       let status = statues(result);
       res.send({ status: status, data: result.results, invariable: ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'instructName', 'instructPhone', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone'] });
     } else {
-      let num = parames(param.studentName,param.studentNumber);
+      let num = parames(param.studentName, param.studentNumber);
       let column = num[0]; param.studentName = num[1]; param.studentNumber = num[2];
       let field = AllSql.学生信息管理.role.House.find.findDetail;
       let find = new AllFind(field, column, [req.userInfo[1].positions, param.studentName, param.studentNumber]);
@@ -126,7 +126,7 @@ router.get('/operate', async (req, res, next) => {
       res.send({ status: status, data: result.results, invariable: ['grade', 'profession', 'dormitoryNumber', 'phoneNumber', 'instructName', 'instructPhone', 'photo'] });
       /* res.sendFile(publicPath); */
     }
-  }else{
+  } else {
     res.send('wuquan')
   }
 });
@@ -136,30 +136,12 @@ router.get('/instructMessage', (req, res, next) => {
 });
 
 //导员单条插入信息
-router.post('/instructInsert', multer({
-  dest: 'public/img'
-}).single('photo'), async function (req, res, next) {
-  console.log(req.file);
-  console.log(req.body);
-  
-  if (req.photo.length === 0) {
-    res.render("error", { message: "上传图片为空" });
-    return;
-  } else {
-    let file = req.file;
-    //获取文件扩展名
-    let exts = file.originalname.split(".");
-    let ext = exts[exts.length - 1]; //防止其余的点
-    let number = Date.now();
-    fs.renameSync(file.path, 'public\\img\\' + number + '.' + ext);
-    const param = req.body;
-    console.log(param);
-    param.photo = 'public\\img\\' + number + '.' + ext;
-    /* console.log(param.photo); */
-    let add = new AllAdd();
-    const result = await add.addMessage([param.studentNumber, param.studentName, param.department, param.profession, param.grade, param.class, param.phoneNumber, param.instructName, param.instructPhone, param.buildNumber, param.dormitoryNumber, param.dormitoryLeader, param.LeaderPhone, param.fatherPhone, param.motherPhone, param.stubName, param.stubPhone, param.photo]);
-    res.send({ err: result.err, results: result.results });
-  }
+router.post('/instructInsert', (req, res, next) => {
+  const param = req.body;
+  console.log(param);
+  let add = new AllAdd();
+  const result = await add.addMessage([param.studentNumber, param.studentName, param.department, param.profession, param.grade, param.class, param.phoneNumber, param.instructName, param.instructPhone, param.buildNumber, param.dormitoryNumber, param.dormitoryLeader, param.LeaderPhone, param.fatherPhone, param.motherPhone, param.stubName, param.stubPhone]);
+  res.send({ err: result.err, results: result.results });
 });
 
 //导员批量导入信息
@@ -198,7 +180,7 @@ router.post('/delete', async function (req, res) {
   let del = new AllDel();
   const result = await del.deleteByStudentNumber(param);
   let status = statues(result);
-  res.send({ status:status, results: result.results });
+  res.send({ status: status, results: result.results });
 });
 
 
@@ -211,22 +193,22 @@ router.post('/update', async function (req, res) {
   let index = arrKey.filter(item => item !== 'studentNumber');
   sqlPinJie = index[0] + '=?';
   arrParam[0] = Object.values(param)[1];
-  for(let i = 1; i < index.length; i++){
-    if(index.length === 1){
+  for (let i = 1; i < index.length; i++) {
+    if (index.length === 1) {
       break;
-    }else{
+    } else {
       sqlPinJie += ',';
-        sqlPinJie += index[i] + '=?';
-        arrParam[i] = Object.values(param)[i+1];
+      sqlPinJie += index[i] + '=?';
+      arrParam[i] = Object.values(param)[i + 1];
     }
   }
   arrParam.push(param.studentNumber)
   console.log(sqlPinJie);
   console.log(arrParam);
-  let update = new BaseSql(sqlPinJie,null ,arrParam);
+  let update = new BaseSql(sqlPinJie, null, arrParam);
   const result = await update.update();
   let status = statues(result)
-  res.send({ status:status, results: result.results.affectedRows});
+  res.send({ status: status, results: result.results.affectedRows });
   /*   } */
 });
 
@@ -237,19 +219,19 @@ function statues(result) {
 };
 
 //对数据进行处理
-function parames(param_1,param_2){
-   let column = null;
-      if (param_1 && param_2 && (param_1 !== 'undefined' && param_2 !== 'undefined')) {
-        column = 'and'
-      } else if (param_1 && !param_2) {
-        column = 'or';
-        param_2 = 'undefined';
-      } else if (!param_1 && param_2) {
-        column = 'or';
-        param_1 = 'undefined';
-      } else {
-        column = 'or';
-      }
-    return [column, param_1, param_2];
+function parames(param_1, param_2) {
+  let column = null;
+  if (param_1 && param_2 && (param_1 !== 'undefined' && param_2 !== 'undefined')) {
+    column = 'and'
+  } else if (param_1 && !param_2) {
+    column = 'or';
+    param_2 = 'undefined';
+  } else if (!param_1 && param_2) {
+    column = 'or';
+    param_1 = 'undefined';
+  } else {
+    column = 'or';
+  }
+  return [column, param_1, param_2];
 }
 module.exports = router;
