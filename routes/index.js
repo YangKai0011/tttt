@@ -139,10 +139,10 @@ router.get('/instructMessage', (req, res, next) => {
 router.post('/instructInsert', multer({
   dest: 'public/img'
 }).single('photo'), async function (req, res, next) {
-  console.log(req);
+  console.log(req.file);
   console.log(req.body);
   
-  if (req.file.length === 0) {
+  if (req.photo.length === 0) {
     res.render("error", { message: "上传图片为空" });
     return;
   } else {
