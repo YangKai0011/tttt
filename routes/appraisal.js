@@ -2,10 +2,7 @@ var express = require('express');
 var router = express.Router();
 const AllAdd = require('../model/Curd/AllAdd');
 const AllFind = require('../model/Curd/AllFind');
-//获取插入的评比字段
-router.get('/addMessage', (req, res, next) => {
-  res.send({ behoove: ['buildNumber', 'dormitoryNumber', 'violationssc', 'neatItemssc', 'score', 'optiones'] })
-})
+
 //学工部插入屏评比信息
 router.post('/addAppraiasl', async (req, res, next) => {
   if (req.userInfo[1].role === 'Controller') {

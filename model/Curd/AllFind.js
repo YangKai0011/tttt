@@ -3,40 +3,38 @@ const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
 
 
-class AllFind extends BaseSql {
+module.exports =  {
 
     //按照宿舍号楼号查询学生信息
-    findDormitory() {
-        let arr = this.arr;
-        const sql = `select ${this.field} from student where buildNumber=? ${this.column}  dormitoryNumber=?;`;
-        return new Promise(function (resolve, reject) {
+    findDormitory:(field, column, arr)=>{
+        const sql = `select ${field} from student where buildNumber=? ${column}  dormitoryNumber=?;`;
+        return  new Promise(function (resolve, reject) {
             pool.query(sql, arr, $callback(resolve, reject));
         });
-    }
+    },
 
     //查询宿舍分布
-    findDistributed() {
-        let arr = this.arr;
+    findDistributed:(field, column, arr)=>{
         if (arr.length === 2) {
             let profession = arr[1];
-            let sql = `select DISTINCT ${this.field} from student where grade=? ${this.column}  profession like '%${profession}%' `;
+            let sql = `select DISTINCT ${field} from student where grade=? ${column}  profession like '%${profession}%' `;
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });
         } else {
             let profession = arr[2];
-            let sql = `select DISTINCT ${this.field} from student where department=? and (grade=? ${this.column}  profession like '%${profession}%') `;
+            let sql = `select DISTINCT ${field} from student where department=? and (grade=? ${column}  profession like '%${profession}%') `;
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });
         }
-    }
+    },
 
-    findDistributedC(param){
-        if (Object.keys(param).length === 5) {
+    findDistributedC:(field, column, arr)=>{
+        /* if (Object.keys(param).length === 4) {
             let sqlPinJie = null; let sqlArr = [];
             //删除无关的键值对
-            delete param.type; delete param.role;
+            delete param.type; 
             let arr = Object.keys(param);
             const index = arr.filter(item => param[item] !== 'undefined');
             switch (index.length) {
@@ -53,44 +51,40 @@ class AllFind extends BaseSql {
                     sqlArr = [param[index[0]], param[index[1]], param[index[2]]];
                     break;
             }
-            param['type'] = 'findDistributedC'; param['role'] = 'Controller'; 
-            const sql = `SELECT DISTINCT buildNumber, dormitoryNumber  FROM  student WHERE  (${sqlPinJie})`;
+            param['type'] = 'findDistributedC'; param['role'] = 'Controller';  */
+            const sql = `SELECT DISTINCT buildNumber, dormitoryNumber  FROM  student WHERE  instructName = ?`;
             console.log(sql);
-            console.log(sqlArr);
+            console.log(arr);
             
             return new Promise(function (resolve, reject) {
-                pool.query(sql, sqlArr, $callback(resolve, reject));
+                pool.query(sql, arr, $callback(resolve, reject));
             });
-        }
-    }
+        },
+
     //学号姓名查询详细信息
-    findDetail() {
-        let arr = this.arr;
+    findDetail:(field,column,arr)=> {
         if (arr.length === 3) {
-            const sql = `SELECT ${this.field} FROM  student where buildNumber=? and (studentName=? ${this.column} studentNumber=? )`;
+            console.log('a');
+            
+            const sql = `SELECT ${field} FROM  student where buildNumber=? and (studentName=? ${column} studentNumber=? )`;
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });
         }else{
-            const sql = `SELECT ${this.field} FROM  student where studentName=? ${this.column} studentNumber=? `;
+            const sql = `SELECT ${field} FROM  student where studentName=? ${column} studentNumber=? `;
             console.log(sql);
             console.log(arr);
-            
-            
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });
         }
-    }
-    findStub(param,position) {
-        if (Object.keys(param).length === 5) {
+    },
+    findStub:(param,position)=> {
+        console.log(param);
             let sqlPinJie = null; let sqlArr = [];
             const positions = position;
-            console.log(positions);
-            //删除无关的键值对
-            delete param.type; delete param.role;
             let arr = Object.keys(param);
-            const index = arr.filter(item => param[item] !== 'undefined');
+            const index = arr.filter(item => param[item] !== undefined);
             switch (index.length) {
                 case 1:
                     sqlPinJie = index + '=?';
@@ -105,31 +99,29 @@ class AllFind extends BaseSql {
                     sqlArr = [positions, param[index[0]], param[index[1]], param[index[2]]];
                     break;
             }
-            param['type'] = 'findStub'; param['role'] = 'House'; param['positions'] = positions;
             const sql = `SELECT studentNumber,studentName,department,profession,grade,class,phoneNumber,instructName,instructPhone,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone FROM  student WHERE buildNumber=? and (${sqlPinJie})`;
             return new Promise(function (resolve, reject) {
                 pool.query(sql, sqlArr, $callback(resolve, reject));
             });
-        }
-    }
+    },
 
     //查询所有宿舍的总分，显示导员
-    findScore(){
+    findScore:()=>{
        const sql =  `SELECT DISTINCT appraisal.buildNumber, appraisal.dormitoryNumber,appraisal.score, student.instructName FROM appraisal LEFT JOIN student ON appraisal.buildNumber = student.buildNumber AND appraisal.dormitoryNumber = student.dormitoryNumber;`;
        return new Promise((resolve, reject)=>{
            pool.query(sql,$callback(resolve, reject));
        })
-    }
+    },
 
     //显示每个导员所管辖的年级和专业所对应的平均分
-    findAvg(){
+    findAvg:()=>{
         const sql = `SELECT AVG(score) ,instructName,grade,profession FROM result WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') GROUP BY grade ,profession ;`;
         return new Promise((resolve, reject)=>{
             pool.query(sql,$callback(resolve, reject));
         });
-    }
+    },
 
-    
+
 
     //显示宿舍得分详情总分,各违纪项
     findApDe(){
@@ -138,9 +130,5 @@ class AllFind extends BaseSql {
             pool.query(sql,$callback(resolve, reject));
         });
     }
-
-
-
 }
 
-module.exports = AllFind;
