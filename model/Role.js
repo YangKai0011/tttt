@@ -21,7 +21,7 @@ module.exports = {
         }
     },
     Instructor: {
-        oper: { '学生住宿信息管理': ['查询', '添加', '修改'] },
+        oper: { '学生住宿信息管理': ['查询', '添加', '修改','调宿'] },
         学生住宿信息管理: {
             find: { 'findDormitory': ['buildNumber', 'dormitoryNumber'], 'findDetail': ['studentName', 'studentNumber'], 'findDistributed': ['profession'] }
         }

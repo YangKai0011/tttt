@@ -47,8 +47,11 @@ class AllAdd extends BaseSql {
         return new Promise(function (resolve, reject) {
             pool.query(sql, sqlArr, $callback(resolve, reject));
         });
-
     }
-}
+
+/*     addResult(){
+        const sql =   `INSERT INTO result  SELECT DISTINCT appraisal.buildNumber, appraisal.dormitoryNumber,appraisal.score, student.instructName,student.grade,student.profession,appraisal.checkDate FROM appraisal LEFT JOIN student ON appraisal.buildNumber = student.buildNumber AND appraisal.dormitoryNumber = student.dormitoryNumber WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m');`
+    }
+} */
 
 module.exports = AllAdd;
