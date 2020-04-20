@@ -3,7 +3,6 @@ const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
 const excel = require('../lib/excel-utils');
-const readFile = require('../model/readFile');
 const router = express.Router();
 const AllSql = require('../dbunit/AllSql');
 const AllFind = require('../model/Curd/AllFind');
@@ -142,84 +141,98 @@ router.get('/instructMessage', (req, res, next) => {
 
 //导员单条插入信息
 router.post('/instructInsert', async (req, res, next) => {
-  const param = req.body;
-  console.log(param);
-  let add = new AllAdd();
-  const result = await add.addMessage([param.studentNumber, param.studentName, param.department, param.profession, param.grade, param.class, param.phoneNumber, param.instructName, param.instructPhone, param.buildNumber, param.dormitoryNumber, param.dormitoryLeader, param.LeaderPhone, param.fatherPhone, param.motherPhone, param.stubName, param.stubPhone]);
-  let status = null;
-  if (result.err === null) { status = true; } else { status = false }
-  res.send({ status: status, results: result.results });
+  if (req.userInfo[1].role === 'Instructor') {
+    const param = req.body;
+    let add = new AllAdd();
+    const result = await add.addMessage([param.studentNumber, param.studentName, param.department, param.profession, param.grade, param.class, param.phoneNumber, param.instructName, param.instructPhone, param.buildNumber, param.dormitoryNumber, param.dormitoryLeader, param.LeaderPhone, param.fatherPhone, param.motherPhone, param.stubName, param.stubPhone]);
+    let status = statues(result);
+    res.send({ status: status, results: result.results });
+  } else {
+    res.send({ status: false, msg: '没有权限' });
+  }
+
 });
 
 //导员批量导入信息
 router.post('/insert', multer({
   dest: 'public/xlsx'
 }).single('file'), function (req, res, next) {
-  if (req.file.length === 0) {
-    return res.json({ error: '上传文件不能为空' });
-  } else {
-    let file = req.file;
-    fs.renameSync('./public/xlsx/' + file.filename, './public/xlsx/' + file.originalname);
-    excel(file.originalname, function (data) {
-      if (!data.err) {
-        for (let i in data) {
-          let arr = [];
-          for (let j in Object.values(data[i])) {
-            arr[j] = Object.values(data[i])[j];
-          }
-          let add = new AllAdd();
-          add.addByInstruct(arr, (err, results) => {
-            if (err) {
-              let str = err;
-              let start = str.indexOf('values') + 7;
-
-              res.json({ status: '添加失败', msg: str.slice(start, start + 14) });
+  if (req.userInfo[1].role === 'Instructor') {
+    if (req.file.length === 0) {
+      return res.json({ error: '上传文件不能为空' });
+    } else {
+      let file = req.file;
+      fs.renameSync('./public/xlsx/' + file.filename, './public/xlsx/' + file.originalname);
+      excel(file.originalname, function (data) {
+        if (!data.err) {
+          for (let i in data) {
+            let arr = [];
+            for (let j in Object.values(data[i])) {
+              arr[j] = Object.values(data[i])[j];
             }
-          });
+            let add = new AllAdd();
+            add.addByInstruct(arr, (err, results) => {
+              if (err) {
+                let str = err;
+                let start = str.indexOf('values') + 7;
+                res.json({ status: '添加失败', msg: str.slice(start, start + 14) });
+              }
+            });
+          }
+        } else {
+          res.json(data.err);
         }
-      } else {
-        res.json(data.err);
-      }
-    });
+      });
+    }
+  } else {
+    res.send({ status: false, msg: '没有权限' });
   }
+
 });
 
 //删除
 router.post('/delete', async function (req, res) {
-  const param = req.body;
-  let del = new AllDel();
-  const result = await del.deleteByStudentNumber(param);
-  let status = statues(result);
-  res.send({ status: status, results: result.results });
+  if (req.userInfo[1].role === 'Instructor') {
+    const param = req.body;
+    let del = new AllDel();
+    const result = await del.deleteByStudentNumber(param);
+    let status = statues(result);
+    res.send({ status: status, results: result.results });
+  } else {
+    res.send({ status: false, msg: '没有权限' });
+  }
+
 });
 
 
 //导员修改信息
 router.post('/update', async function (req, res) {
-  const param = req.body;
-  let sqlPinJie = null;
-  let arrParam = [];
-  let arrKey = Object.keys(param);
-  let index = arrKey.filter(item => item !== 'studentNumber');
-  sqlPinJie = index[0] + '=?';
-  arrParam[0] = Object.values(param)[1];
-  for (let i = 1; i < index.length; i++) {
-    if (index.length === 1) {
-      break;
-    } else {
-      sqlPinJie += ',';
-      sqlPinJie += index[i] + '=?';
-      arrParam[i] = Object.values(param)[i + 1];
+  if (req.userInfo[1].role === 'Instructor') {
+    const param = req.body;
+    let sqlPinJie = null;
+    let arrParam = [];
+    let arrKey = Object.keys(param);
+    let index = arrKey.filter(item => item !== 'studentNumber');
+    sqlPinJie = index[0] + '=?';
+    arrParam[0] = Object.values(param)[1];
+    for (let i = 1; i < index.length; i++) {
+      if (index.length === 1) {
+        break;
+      } else {
+        sqlPinJie += ',';
+        sqlPinJie += index[i] + '=?';
+        arrParam[i] = Object.values(param)[i + 1];
+      }
     }
+    arrParam.push(param.studentNumber)
+    let update = new BaseSql(sqlPinJie, null, arrParam);
+    const result = await update.update();
+    let status = statues(result)
+    res.send({ status: status, results: result.results.affectedRows });
+  } else {
+    res.send({ status: false, msg: '没有权限' });
   }
-  arrParam.push(param.studentNumber)
-  console.log(sqlPinJie);
-  console.log(arrParam);
-  let update = new BaseSql(sqlPinJie, null, arrParam);
-  const result = await update.update();
-  let status = statues(result)
-  res.send({ status: status, results: result.results.affectedRows });
-  /*   } */
+
 });
 
 

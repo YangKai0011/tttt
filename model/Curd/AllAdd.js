@@ -2,7 +2,7 @@ const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
 const BaseSql = require('../../lib/student/BaseSql');
 class AllAdd extends BaseSql {
-    addByInstruct(arr,callback) {
+    addByInstruct(arr, callback) {
         const sql = 'insert into student(studentNumber, studentName, department, profession, grade, class) values(?,?,?,?,?,?)';
         pool.getConnection(function (err, conn) {
             if (err) throw err;
@@ -11,8 +11,8 @@ class AllAdd extends BaseSql {
                     if (err) throw err;
                     conn.query(sql, arr, function (err, results) {
                         if (err) {
-                           /*  console.log(err);
-                            console.log(err.sql); */
+                            /*  console.log(err);
+                             console.log(err.sql); */
                             //回滚事务
                             conn.rollback(function () {
                                 return callback(err.sql, null);
@@ -34,16 +34,21 @@ class AllAdd extends BaseSql {
         });
     }
     addMessage(sqlArr) {
-        /* let sqlArr = this.arr;
         console.log(sqlArr);
-         */
-        console.log(sqlArr);
-        
         const sql = 'insert into student(studentNumber,studentName,department,profession,grade,class,phoneNumber,instructName,instructPhone,buildNumber,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone,stubName,stubPhone) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         return new Promise(function (resolve, reject) {
-          pool.query(sql,sqlArr , $callback(resolve, reject));
+            pool.query(sql, sqlArr, $callback(resolve, reject));
         });
-      }
+    }
+
+    //宿舍评比将检查的结果上传
+    addAppraisal(sqlArr) {
+        const sql = `INSERT INTO appraisal(buildNumber, dormitoryNumber, violationssc, neatItemssc, score,optiones) VALUES(?,?,?,?,?,?);`;
+        return new Promise(function (resolve, reject) {
+            pool.query(sql, sqlArr, $callback(resolve, reject));
+        });
+
+    }
 }
 
 module.exports = AllAdd;

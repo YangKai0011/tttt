@@ -35,10 +35,22 @@ let createStudent = `create table if not exists student(
 let createAppraisal = `CREATE TABLE IF NOT EXISTS appraisal(
 	buildNumber INT(11) COMMENT '楼号',
 	dormitoryNumber INT(11) COMMENT '宿舍号',
-	violations INT(11) COMMENT '违规项',
-	neatItems INT(11) COMMENT '整洁项',
+	violationssc INT(11) COMMENT '违规项得分',
+	neatItemssc INT(11) COMMENT '整洁项得分',
 	score INT(11) COMMENT '总体得分',
-	checkDate  VARCHAR(50) COMMENT '检查日期'
+	optiones VARCHAR(100) COMMENT '被扣选项',
+	checkDate  TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '检查日期'
+)ENGINE=INNODB DEFAULT CHARSET=utf8;`;
+
+//中间表
+let createResult = `CREATE TABLE IF NOT EXISTS result(
+	buildNumber INT(11) COMMENT '楼号',
+	dormitoryNumber INT(11) COMMENT '宿舍号',
+	score INT(11) COMMENT '总体得分',
+	instructName VARCHAR(5) COMMENT '导员姓名',
+	grade VARCHAR(10) COMMENT '年级',
+	profession VARCHAR(20) COMMENT '专业',
+	checkDate  TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '检查日期'
 )ENGINE=INNODB DEFAULT CHARSET=utf8;`;
 module.exports = function () {
   pool.query(createAccent, function (err, results, fields) {
@@ -51,9 +63,14 @@ module.exports = function () {
       console.log(err);
     }
   });
-  /* pool.query(createStudent, function (err, results, fields) {
+  pool.query(createAppraisal, function (err, results, fields) {
     if (err) {
       console.log(err);
     }
-  }); */
+  });
+  pool.query(createResult, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
+  });
 };

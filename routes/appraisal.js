@@ -1,33 +1,49 @@
 var express = require('express');
 var router = express.Router();
-const AppraisalCurd = require('../model/AppraisalCurd');
-//宿舍评比信息
-router.post('/insertAppraisal', (req, res) => {
-  const param = req.body;
-  /* let violations = param.  + param. + param. + param.; */
-  /* let neatItems = param. + param. + param. */
-  /* let score = 100 - (violations + neatItems); */
-  let paramArr = [param.buildNumber, param.dormitoryNumber, violations, neatItems, score, param.buildNumber, param.dormitoryNumber];
-  AppraisalCurd.insertApprisal(paramArr).then(data(req, res));
-});
-
-
-/* router.get('/', (req, res, next) => {
-  const param = req.query;
-  if(param.role === 'Controller'){
-    //到每个导员所管辖的年级专业算平均分
-
+const AllAdd = require('../model/Curd/AllAdd');
+const AllFind = require('../model/Curd/AllFind');
+//获取插入的评比字段
+router.get('/addMessage', (req, res, next) => {
+  res.send({ behoove: ['buildNumber', 'dormitoryNumber', 'violationssc', 'neatItemssc', 'score', 'optiones'] })
+})
+//学工部插入屏评比信息
+router.post('/addAppraiasl', async (req, res, next) => {
+  if (req.userInfo[1].role === 'Controller') {
+    const param = req.body;
+    console.log(param);
+    const add = new AllAdd();
+    const result = await add.addAppraisal([param.buildNumber, param.dormitoryNumber, param.violationssc, param.neatItemssc, param.score, param.optiones])
+    let status = statues(result);
+    res.send({ status: status, result: result.results });
   }
-}) */
 
-function data(req, res) {
-  return function (data) {
-    if (!data.err) {
-      const results = data.results;
-      res.send(results);
-    } else {
-      res.send(data.err);
+})
+
+//按照宿舍算总分，显示导员
+router.get('/search', async (req, res, next) => {
+  const param = req.query;
+  if (req.userInfo[1].role === 'Controller') {
+    if(param.type === 'findScore'){
+      const find = new AllFind();
+      const result = await find.findScore();
+      let status = statues(result);
+      res.send({ status: status, result: result.results });
+    }else if(param.type === 'findAvg'){
+      const find = new AllFind();
+      const result = await find.findAvg();
+      let status = statues(result);
+      res.send({ status: status, result: result.results });
+    }else if(param.type === 'findApDe'){
+      const find = new AllFind();
+      const result = await find.findApDe();
+      let status = statues(result);
+      res.send({ status: status, result: result.results });
     }
-  };
-}
+    
+  }
+});
+function statues(result) {
+  let status;
+  return result.err !== null ? status = false : status = true;
+};
 module.exports = router;

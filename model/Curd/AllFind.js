@@ -113,6 +113,30 @@ class AllFind extends BaseSql {
         }
     }
 
+    //查询所有宿舍的总分，显示导员
+    findScore(){
+       const sql =  `SELECT DISTINCT appraisal.buildNumber, appraisal.dormitoryNumber,appraisal.score, student.instructName FROM appraisal LEFT JOIN student ON appraisal.buildNumber = student.buildNumber AND appraisal.dormitoryNumber = student.dormitoryNumber;`;
+       return new Promise((resolve, reject)=>{
+           pool.query(sql,$callback(resolve, reject));
+       })
+    }
+
+    //显示每个导员所管辖的年级和专业所对应的平均分
+    findAvg(){
+        const sql = `SELECT AVG(score) ,instructName,grade,profession FROM result WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') GROUP BY grade ,profession ;`;
+        return new Promise((resolve, reject)=>{
+            pool.query(sql,$callback(resolve, reject));
+        });
+    }
+
+    //显示宿舍得分详情总分,各违纪项
+    findApDe(){
+        const sql = `SELECT buildNumber, dormitoryNumber, optiones, score FROM appraisal WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m');`;
+        return new Promise((resolve, reject)=>{
+            pool.query(sql,$callback(resolve, reject));
+        });
+    }
+
 
 }
 

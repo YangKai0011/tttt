@@ -10,7 +10,6 @@ const tokenUtil = require('./lib/token-units');
 var indexRouter = require('./routes/index');
 var accentRouter = require('./routes/accent');
 const appraisalRouter = require('./routes/appraisal');
-const sideRouter = require('./routes/side');
 const downloadRouter = require('./routes/download');
 var app = express();
 
@@ -24,13 +23,11 @@ app.use(allowCors); //跨域中间件
 app.use('/user', accentRouter);
 app.use('/download', downloadRouter);
 app.use((req, res, next)=>{
-  let token = /*  req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjZW50IjoiYWRtaW4iLCJyb2xlIjoiQ29udHJvbGxlciIsInBvc2l0aW9ucyI6bnVsbCwiaWF0IjoxNTg3MzQ2NDE0LCJleHAiOjE1ODc0MzI4MTR9._1gwlkjv9Ozr2HJL0LX4BOCc0MSolwB95cRGq3u_0Tk';
+  let token = /*  req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjZW50IjoiYWRtaW4iLCJyb2xlIjoiQ29udHJvbGxlciIsInBvc2l0aW9ucyI6bnVsbCwiaWF0IjoxNTg3Mzc0MTkxLCJleHAiOjE1ODc0NjA1OTF9.lrfGOTthAt7DunPZC67Q3jS2NvQY9rImLmcJPX3FzzE';
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
-    
     console.log(req.userInfo[1].role);
-    console.log('111111111111111');
    /*  console.log(req.userInfo[1].positions.split(',')[0]);
     console.log(req.userInfo[1].positions.split(',')[1]); */
     return next();
@@ -39,8 +36,6 @@ app.use((req, res, next)=>{
   }
 });
 app.use('/students', indexRouter);
-app.use('/side', sideRouter);
-
 app.use('/appraisal', appraisalRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
