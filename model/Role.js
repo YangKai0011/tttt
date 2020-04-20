@@ -6,7 +6,7 @@ module.exports = {
         'findStub': '按照宿管号年级专业系别查询',
         'findScore': '查询所有宿舍成绩',
         'findAvg': '按每个导员所管辖的年级专业查询平均分',
-        'findApDe': '//显示宿舍得分详情总分,各违纪项'
+        'findApDe': '显示宿舍得分详情总分,各违纪项'
     },
 
     Controller: {
