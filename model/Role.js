@@ -10,7 +10,7 @@ module.exports = {
     },
 
     Controller: {
-        oper: { '学生住宿信息管理': ['查询', '宿舍平面图'], '宿舍评比、奖惩': ['添加', '查询'] /* ,  '导员信息维护': [] */ },
+        oper: { '学生住宿信息管理': ['查询', '宿舍平面图'], '宿舍评比、奖惩': ['添加', '宿舍得分详情'] /* ,  '导员信息维护': [] */ },
         学生住宿信息管理: {
             find: { 'findDormitory': ['buildNumber', 'dormitoryNumber'], 'findDistributed': ['grade', 'profession'] },
         },
