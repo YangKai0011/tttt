@@ -4,9 +4,9 @@ module.exports = {
         'findDistributed': '按照年级专业查询',
         'findDetail': '按照学号姓名查询',
         'findStub': '按照宿管号年级专业系别查询',
-        /* 'findScore': '查询所有宿舍成绩',
+        'findScore': '查询所有宿舍成绩',
         'findAvg': '按每个导员所管辖的年级专业查询平均分',
-        'findApDe': '//显示宿舍得分详情总分,各违纪项' */
+        'findApDe': '//显示宿舍得分详情总分,各违纪项'
     },
 
     Controller: {
