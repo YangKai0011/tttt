@@ -24,7 +24,7 @@ app.use(allowCors); //跨域中间件
 app.use('/user', accentRouter);
 app.use('/download', downloadRouter);
 app.use((req, res, next)=>{
-  let token = /*  req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODczMDY5MjcsImV4cCI6MTU4NzM5MzMyN30.qHghVKPFHtv9q0KGGRUKyMs09csIRCbWYghOKTjC8rw';
+  let token = /*  req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjZW50IjoiYWRtaW4iLCJyb2xlIjoiQ29udHJvbGxlciIsInBvc2l0aW9ucyI6bnVsbCwiaWF0IjoxNTg3MzQ2NDE0LCJleHAiOjE1ODc0MzI4MTR9._1gwlkjv9Ozr2HJL0LX4BOCc0MSolwB95cRGq3u_0Tk';
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);

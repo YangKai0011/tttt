@@ -58,6 +58,11 @@ router.get('/operate', async (req, res, next) => {
       const result = await find.findDormitory();
       let status = statues(result);
       res.send({ status: status, data: result.results, invariable: ['studentNumber', 'studentName', 'grade', 'department', 'profession', 'class', 'phoneNumber', 'instructName', 'instructPhone', 'stubName', 'stubPhone'] });
+    } else if (param.instructName && param.type === 'findDistributedC') {
+      let find = new AllFind();
+      const result = await find.findDistributedC(param);
+      let status = statues(result);
+      res.send({ status: status, data: result.results, invariable: ['buildNumber', 'dormitoryNumber'] });
     } else {
       let num = parames(param.grade, param.profession);
       let column = num[0]; param.grade = num[1]; param.profession = num[2];
@@ -136,14 +141,14 @@ router.get('/instructMessage', (req, res, next) => {
 });
 
 //导员单条插入信息
-router.post('/instructInsert',async (req, res, next) => {
+router.post('/instructInsert', async (req, res, next) => {
   const param = req.body;
   console.log(param);
   let add = new AllAdd();
   const result = await add.addMessage([param.studentNumber, param.studentName, param.department, param.profession, param.grade, param.class, param.phoneNumber, param.instructName, param.instructPhone, param.buildNumber, param.dormitoryNumber, param.dormitoryLeader, param.LeaderPhone, param.fatherPhone, param.motherPhone, param.stubName, param.stubPhone]);
   let status = null;
-  if(result.err === null){status = true;}else{status = false}
-  res.send({ status:status, results: result.results });
+  if (result.err === null) { status = true; } else { status = false }
+  res.send({ status: status, results: result.results });
 });
 
 //导员批量导入信息
@@ -167,8 +172,8 @@ router.post('/insert', multer({
             if (err) {
               let str = err;
               let start = str.indexOf('values') + 7;
-    
-              res.json({status: '添加失败',msg:str.slice(start, start+14)});
+
+              res.json({ status: '添加失败', msg: str.slice(start, start + 14) });
             }
           });
         }

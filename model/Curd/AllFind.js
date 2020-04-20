@@ -25,12 +25,41 @@ class AllFind extends BaseSql {
             });
         } else {
             let profession = arr[2];
-            /* let num = arr[1] === 'undefined' && arr[2] === 'undefined' ? 'or' : 'and'; */
             let sql = `select DISTINCT ${this.field} from student where department=? and (grade=? ${this.column}  profession like '%${profession}%') `;
-            console.log(sql);
-            console.log(arr);
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
+            });
+        }
+    }
+
+    findDistributedC(param){
+        if (Object.keys(param).length === 5) {
+            let sqlPinJie = null; let sqlArr = [];
+            //删除无关的键值对
+            delete param.type; delete param.role;
+            let arr = Object.keys(param);
+            const index = arr.filter(item => param[item] !== 'undefined');
+            switch (index.length) {
+                case 1:
+                    sqlPinJie = index + '=?';
+                    sqlArr = [param[index]];
+                    break;
+                case 2:
+                    sqlPinJie = index[0] + '=? and ' + index[1] + '=? ';
+                    sqlArr = [param[index[0]], param[index[1]]];
+                    break;
+                case 3:
+                    sqlPinJie = index[0] + '=? and ' + index[1] + ' =? ' + ' and ' + index[2] + '=?';
+                    sqlArr = [param[index[0]], param[index[1]], param[index[2]]];
+                    break;
+            }
+            param['type'] = 'findDistributedC'; param['role'] = 'Controller'; 
+            const sql = `SELECT DISTINCT buildNumber, dormitoryNumber  FROM  student WHERE  (${sqlPinJie})`;
+            console.log(sql);
+            console.log(sqlArr);
+            
+            return new Promise(function (resolve, reject) {
+                pool.query(sql, sqlArr, $callback(resolve, reject));
             });
         }
     }
