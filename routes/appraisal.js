@@ -39,12 +39,12 @@ router.get('/search', async (req, res, next) => {
       res.send({ status: status, data: result.results,invariable:invariable });
     }else if(param.type === 'findAvg'){
       const result = await AllFind.findAvg();
-      let invariable = ['AVG' ,'instructName']
+      let invariable = ['AVG' ,'instructName','time']
       let status = statues(result);
       res.send({ status: status, data: result.results,invariable:invariable });
     }else if(param.type === 'findApDe'){
       const result = await AllFind.findApDe();
-      let invariable = ['buildNumber', 'dormitoryNumber', 'options', 'score']
+      let invariable = ['buildNumber', 'dormitoryNumber', 'options', 'score','time']
       let status = statues(result);
       res.send({ status: status, data: result.results,invariable:invariable});
     }
