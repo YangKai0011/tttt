@@ -13,9 +13,16 @@ router.post('/addAppraisal', async (req, res, next) => {
     console.log(param);
     const add = new AllAdd();
     const result = await add.addAppraisal([param.buildNumber, param.dormitoryNumber, param.violations, param.neatItems, param.score, param.options]);
-    add.addResult();
-    let status = statues(result);
-    res.send({ status: status, result: result.results });
+    if(result.err === null){
+        const data = await add.addResult();
+        let status = statues(data);
+        let invariable = ['buildNumber', 'dormitoryNumber','score', 'instructName','grade','profession','checkDate'];
+        res.send({ status: status, result: data.results ,invariable: invariable});
+    }else{
+      let status = statues(result);
+      res.send({ status: status, result: result.results });
+    }
+   
   }
 
 })
@@ -28,16 +35,19 @@ router.get('/search', async (req, res, next) => {
     
     if(param.type === 'findScore'){
       const result = await AllFind.findScore();
+      let invariable = ['buildNumber', 'dormitoryNumber','score','instructName'];
       let status = statues(result);
-      res.send({ status: status, result: result.results });
+      res.send({ status: status, result: result.results,invariable:invariable });
     }else if(param.type === 'findAvg'){
       const result = await AllFind.findAvg();
+      let invariable = ['AVG(score)' ,'instructName','grade','profession']
       let status = statues(result);
-      res.send({ status: status, result: result.results });
+      res.send({ status: status, result: result.results,invariable:invariable });
     }else if(param.type === 'findApDe'){
       const result = await AllFind.findApDe();
+      let invariable = ['buildNumber', 'dormitoryNumber', 'options', 'score']
       let status = statues(result);
-      res.send({ status: status, result: result.results });
+      res.send({ status: status, result: result.results,invariable:invariable });
     }
   }else{
     res.send('wuquan');
