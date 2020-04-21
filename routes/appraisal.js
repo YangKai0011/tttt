@@ -7,7 +7,7 @@ const AllFind = require('../model/Curd/AllFind');
 
 
 //学工部插入屏评比信息
-router.post('/addAppraiasl', async (req, res, next) => {
+router.post('/addAppraisal', async (req, res, next) => {
   if (req.userInfo[1].role === 'Controller') {
     const param = req.body;
     console.log(param);
