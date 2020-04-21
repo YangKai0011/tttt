@@ -24,6 +24,8 @@ router.post('/addAppraisal', async (req, res, next) => {
 router.get('/search', async (req, res, next) => {
   const param = req.query;
   if (req.userInfo[1].role === 'Controller') {
+    console.log(param);
+    
     if(param.type === 'findScore'){
       const result = await AllFind.findScore();
       let status = statues(result);
