@@ -41,10 +41,10 @@ let createStudent = `CREATE TABLE IF NOT EXISTS  student(
 let createAppraisal = `CREATE TABLE IF NOT EXISTS appraisal(
 	buildNumber INT(11) COMMENT '楼号',
 	dormitoryNumber INT(11) COMMENT '宿舍号',
-	violationssc INT(11) COMMENT '违规项得分',
-	neatItemssc INT(11) COMMENT '整洁项得分',
+	violations INT(11) COMMENT '违规项得分',
+	neatItems INT(11) COMMENT '整洁项得分',
 	score INT(11) COMMENT '总体得分',
-	optiones VARCHAR(100) COMMENT '被扣选项',
+	options VARCHAR(100) COMMENT '被扣选项',
 	checkDate  TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '检查日期'
 )ENGINE=INNODB DEFAULT CHARSET=utf8;`;
 

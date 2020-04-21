@@ -3,6 +3,9 @@ var router = express.Router();
 const AllAdd = require('../model/Curd/AllAdd');
 const AllFind = require('../model/Curd/AllFind');
 
+
+
+
 //学工部插入屏评比信息
 router.post('/addAppraiasl', async (req, res, next) => {
   if (req.userInfo[1].role === 'Controller') {
