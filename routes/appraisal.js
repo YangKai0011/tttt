@@ -16,8 +16,7 @@ router.post('/addAppraisal', async (req, res, next) => {
     if(result.err === null){
         const data = await add.addResult();
         let status = statues(data);
-        let invariable = ['buildNumber', 'dormitoryNumber','score', 'instructName','grade','profession','checkDate'];
-        res.send({ status: status, data: data.results,invariable: invariable});
+        res.send({ statusResult: status, data: data.results});
     }else{
       let status = statues(result);
       res.send({ status: status, data: result.results });
@@ -40,7 +39,7 @@ router.get('/search', async (req, res, next) => {
       res.send({ status: status, data: result.results,invariable:invariable });
     }else if(param.type === 'findAvg'){
       const result = await AllFind.findAvg();
-      let invariable = ['AVG(score)' ,'instructName']
+      let invariable = ['AVG' ,'instructName']
       let status = statues(result);
       res.send({ status: status, data: result.results,invariable:invariable });
     }else if(param.type === 'findApDe'){

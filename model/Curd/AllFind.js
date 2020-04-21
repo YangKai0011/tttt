@@ -86,7 +86,7 @@ module.exports =  {
 
     //显示每个导员所管辖的年级和专业所对应的平均分
     findAvg:()=>{
-        const sql = `SELECT AVG(score) ,instructName FROM result WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')  GROUP BY instructName;;`;
+        const sql = `SELECT AVG(score) ,instructName,DATE_FORMAT(checkDate,'%Y-%m') FROM result WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')  GROUP BY instructName;`;
         return new Promise((resolve, reject)=>{
             pool.query(sql,$callback(resolve, reject));
         });
@@ -96,7 +96,7 @@ module.exports =  {
 
     //显示宿舍得分详情总分,各违纪项
     findApDe:()=>{
-        const sql = `SELECT buildNumber, dormitoryNumber, options, score FROM appraisal WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m');`;
+        const sql = `SELECT buildNumber, dormitoryNumber, OPTIONS, score,DATE_FORMAT(checkDate,'%Y-%m') FROM appraisal WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m');`;
         return new Promise((resolve, reject)=>{
             pool.query(sql,$callback(resolve, reject));
         });
