@@ -9,7 +9,7 @@ module.exports = {
         'findApDe': '显示宿舍得分详情总分,各违纪项' */
     },
     Controller: {
-        oper: { '学生住宿信息管理': ['查询', '宿舍平面图'], '宿舍评比、奖惩': ['添加评比信息', '宿舍得分详情'] /* ,  '导员信息维护': [] */ },
+        oper: { '学生住宿信息管理': ['查询', '宿舍平面图'], '宿舍评比、奖惩': ['添加评比信息', '宿舍分值登记'] /* ,  '导员信息维护': [] */ },
         学生住宿信息管理: {
             find: { 'findDormitory': ['buildNumber', 'dormitoryNumber'], 'findDistributed': ['grade', 'profession'] },
         },
