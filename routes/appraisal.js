@@ -34,7 +34,8 @@ router.get('/search', async (req, res, next) => {
       let status = statues(result);
       res.send({ status: status, result: result.results });
     }
-    
+  }else{
+    res.send('wuquan');
   }
 });
 function statues(result) {

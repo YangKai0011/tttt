@@ -61,12 +61,14 @@ router.get('/operate', async (req, res, next) => {
     } else if (param.type === 'findDistributedC') {
       arr = [param.instructName]
       invariable = ['buildNumber', 'dormitoryNumber'];
-    } else if(param.type === 'findDistributed'){
+    } else if (param.type === 'findDistributed') {
       param.grade !== undefined && param.profession !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.Controller.find[param.type];
       arr = [param.grade, param.profession];
       invariable = ['buildNumber', 'dormitoryNumber'];
-    }else{
+    }else if(param.type === 'findBuMe'){
+      invariable = ['buildNumber','dormitoryNumber','application'];
+    } else {
       res.send('wuquan');
     }
     const result = await AllFind[param.type](field, column, arr);
@@ -84,12 +86,12 @@ router.get('/operate', async (req, res, next) => {
       field = AllSql.学生信息管理.role.Instructor.find[param.type];
       arr = [param.studentName, param.studentNumber];
       invariable = ['studentNumber', 'studentName', 'grade', 'profession', 'class', 'phoneNumber', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone', 'stubName', 'stubPhone'];
-    } else if(param.type === 'findDistributed'){
+    } else if (param.type === 'findDistributed') {
       field = AllSql.学生信息管理.role.Instructor.find[param.type];
       column = 'and';
       arr = [req.userInfo[1].positions.split(',')[0], req.userInfo[1].positions.split(',')[1], param.profession];
       invariable = ['buildNumber', 'dormitoryNumber'];
-    }else{
+    } else {
       res.send('wuquan');
     }
     const result = await AllFind[param.type](field, column, arr);
@@ -97,7 +99,7 @@ router.get('/operate', async (req, res, next) => {
     res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
 
   } else if (req.userInfo[1].role === 'DeLeader') {
-    if(param.type === 'findDistributed'){
+    if (param.type === 'findDistributed') {
       field = AllSql.学生信息管理.role.Instructor.find[param.type];
       column = null;
       param.grade !== undefined && param.profession !== undefined ? column = 'and' : column = 'or';
@@ -116,7 +118,7 @@ router.get('/operate', async (req, res, next) => {
       const result = await AllFind.findStub({ grade: param.grade, profession: param.profession, department: param.department }, req.userInfo[1].positions);
       let status = statues(result);
       res.send({ status: status, data: result.results, invariable: ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'instructName', 'instructPhone', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone'] });
-    } else if(param.type === 'findDetail'){
+    } else if (param.type === 'findDetail') {
       param.studentName !== undefined && param.studentNumber !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.House.find[param.type];
       arr = [req.userInfo[1].positions, param.studentName, param.studentNumber];
@@ -124,7 +126,7 @@ router.get('/operate', async (req, res, next) => {
        const publicPath = path.resolve(__dirname, "../" + photos); */
       invariable = ['grade', 'profession', 'dormitoryNumber', 'phoneNumber', 'instructName', 'instructPhone'];
       /* res.sendFile(publicPath); */
-    }else{
+    } else {
       res.send('wuquan');
     }
     if (param.type !== 'findStub') {
@@ -245,6 +247,16 @@ router.post('/update', async function (req, res) {
 
 });
 
+//宿舍楼栋,楼层的管理
+router.post('/addBuildingMa', (req, res) => {
+  if (req.userInfo[1].role === 'Controller') {
+    const param = req.body;
+    const add = new AllAdd();
+    add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application]);
+  }else{
+    res.send('wuquan')
+  }
+});
 
 function statues(result) {
   let status;

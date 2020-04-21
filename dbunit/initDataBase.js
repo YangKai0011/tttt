@@ -58,6 +58,12 @@ let createResult = `CREATE TABLE IF NOT EXISTS result(
 	profession VARCHAR(20) COMMENT '专业',
 	checkDate  TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '检查日期'
 )ENGINE=INNODB DEFAULT CHARSET=utf8;`;
+
+let creatBuMe = `CREATE TABLE IF NOT EXISTS buildingmanagement(
+	buildNumber INT(11) COMMENT '楼号',
+	dormitoryNumber INT(11) COMMENT '宿舍号',
+	application VARCHAR(20) COMMENT '用途'
+)ENGINE=INNODB DEFAULT CHARSET=utf8;`;
 module.exports = function () {
   pool.query(createAccent, function (err, results, fields) {
     if (err) {
@@ -80,6 +86,11 @@ module.exports = function () {
     }
   });
   pool.query(createResult, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
+  });
+  pool.query(creatBuMe, function (err, results, fields) {
     if (err) {
       console.log(err);
     }

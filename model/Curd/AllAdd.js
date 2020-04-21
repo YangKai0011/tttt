@@ -30,6 +30,13 @@ class AllAdd  {
             pool.query(sql, $callback(resolve, reject));
         });
     }
+
+    addBuildingMa(arr){
+        const sql =   `INSERT INTO buildingmanagement VALUE(?,?,?);`;
+        return new Promise(function (resolve, reject) {
+            pool.query(sql,arr ,$callback(resolve, reject));
+        });
+    }
 }
 
 module.exports = AllAdd;

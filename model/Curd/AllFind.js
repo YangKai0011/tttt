@@ -100,6 +100,13 @@ module.exports =  {
         return new Promise((resolve, reject)=>{
             pool.query(sql,$callback(resolve, reject));
         });
+    },
+
+    findBuMe:()=>{
+        const sql = `SELECT buildNumber,dormitoryNumber,  application FROM buildingmanagement WHERE application IS NOT NULL`;
+        return new Promise((resolve, reject)=>{
+            pool.query(sql,$callback(resolve, reject));
+        });
     }
 }
 

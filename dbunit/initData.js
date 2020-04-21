@@ -20,7 +20,10 @@ let sql = [
 `INSERT INTO appraisal(buildNumber, dormitoryNumber, violationssc, neatItemssc, score,optiones) VALUES(2, 319, 5, 10, 85,'斯拉软件');`,
 `INSERT INTO appraisal(buildNumber, dormitoryNumber, violationssc, neatItemssc, score,optiones) VALUES(2, 317, 50, 20, 30,'斯拉软件，阳台');`,
 `INSERT INTO appraisal(buildNumber, dormitoryNumber, violationssc, neatItemssc, score,optiones) VALUES(2, 315, 40, 20, 40,'斯拉软件');`,
-`INSERT INTO appraisal(buildNumber, dormitoryNumber, violationssc, neatItemssc, score,optiones) VALUES(2, 310, 20, 30, 50,'斯拉软件');`
+`INSERT INTO appraisal(buildNumber, dormitoryNumber, violationssc, neatItemssc, score,optiones) VALUES(2, 310, 20, 30, 50,'斯拉软件');`,
+`INSERT INTO buildingmanagement VALUE(1,515,'储藏室');`,
+`INSERT INTO buildingmanagement VALUE(1,517,'浴室');`,
+`INSERT INTO buildingmanagement VALUE(1,313,NULL)`
 ];
  function insertData() {
     for (let i = 0; i < sql.length; i++) {
