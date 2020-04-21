@@ -22,18 +22,15 @@ router.get('/search', async (req, res, next) => {
   const param = req.query;
   if (req.userInfo[1].role === 'Controller') {
     if(param.type === 'findScore'){
-      const find = new AllFind();
-      const result = await find.findScore();
+      const result = await AllFind.findScore();
       let status = statues(result);
       res.send({ status: status, result: result.results });
     }else if(param.type === 'findAvg'){
-      const find = new AllFind();
-      const result = await find.findAvg();
+      const result = await AllFind.findAvg();
       let status = statues(result);
       res.send({ status: status, result: result.results });
     }else if(param.type === 'findApDe'){
-      const find = new AllFind();
-      const result = await find.findApDe();
+      const result = await AllFind.findApDe();
       let status = statues(result);
       res.send({ status: status, result: result.results });
     }

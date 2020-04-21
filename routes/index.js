@@ -7,7 +7,7 @@ const AllSql = require('../dbunit/AllSql');
 const AllFind = require('../model/Curd/AllFind');
 const AllAdd = require('../model/Curd/AllAdd');
 const AllDel = require('../model/Curd/AllDel');
-const BaseSql = require('../lib/student/BaseSql');
+const AllUpdate = require('../model/Curd/AllUpdate');
 const role = require('../model/Role');
 //返回角色可做的操作
 router.get('/side', (req, res) => {
@@ -53,8 +53,6 @@ router.get('/operate', async (req, res, next) => {
   let modify = [];
   let invariable = [];
   if (req.userInfo[1].role === 'Controller') {
-    console.log('11111111111111qqqqqqqqqqqqqqqqqqqqq');
-    
     if (param.type === 'findDormitory') {
       param.buildNumber !== undefined && param.dormitoryNumber !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.Controller.find[param.type];
@@ -75,8 +73,6 @@ router.get('/operate', async (req, res, next) => {
     let status = statues(result);
     res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
   } else if (req.userInfo[1].role === 'Instructor') {
-    console.log('444444444444444444444qqqqqqqqqqqqqqqqq');
-    
     if (param.type === 'findDormitory') {
       param.buildNumber !== undefined && param.dormitoryNumber !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.Instructor.find[param.type];
@@ -111,8 +107,6 @@ router.get('/operate', async (req, res, next) => {
       res.send({ status: status, data: result.results, invariable: ['buildNumber', 'dormitoryNumber'] });
     }
   } else if (req.userInfo[1].role === 'House') {
-    console.log('333333333333qqqqqqqqqqqq');
-    
     if (param.type === 'findDormitory') {
       column = 'and';
       field = AllSql.学生信息管理.role.House.find[param.type];
@@ -242,8 +236,7 @@ router.post('/update', async function (req, res) {
       }
     }
     arrParam.push(param.studentNumber)
-    let update = new BaseSql(sqlPinJie, null, arrParam);
-    const result = await update.update();
+    const result = await AllUpdate.update(sqlPinJie, arrParam);
     let status = statues(result)
     res.send({ status: status, results: result.results.affectedRows });
   } else {

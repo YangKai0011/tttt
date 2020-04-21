@@ -95,7 +95,7 @@ module.exports =  {
 
 
     //显示宿舍得分详情总分,各违纪项
-    findApDe(){
+    findApDe:()=>{
         const sql = `SELECT buildNumber, dormitoryNumber, optiones, score FROM appraisal WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m');`;
         return new Promise((resolve, reject)=>{
             pool.query(sql,$callback(resolve, reject));
