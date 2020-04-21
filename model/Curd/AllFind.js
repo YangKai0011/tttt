@@ -86,7 +86,7 @@ module.exports =  {
 
     //显示每个导员所管辖的年级和专业所对应的平均分
     findAvg:()=>{
-        const sql = `SELECT AVG(score) ,instructName,grade,profession FROM result WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m') GROUP BY grade ,profession ;`;
+        const sql = `SELECT AVG(score) ,instructName FROM result WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m')  GROUP BY instructName;;`;
         return new Promise((resolve, reject)=>{
             pool.query(sql,$callback(resolve, reject));
         });
