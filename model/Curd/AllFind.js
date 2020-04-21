@@ -1,4 +1,3 @@
-const BaseSql = require('../../lib/student/BaseSql');
 const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
 
@@ -31,31 +30,7 @@ module.exports =  {
     },
 
     findDistributedC:(field, column, arr)=>{
-        /* if (Object.keys(param).length === 4) {
-            let sqlPinJie = null; let sqlArr = [];
-            //删除无关的键值对
-            delete param.type; 
-            let arr = Object.keys(param);
-            const index = arr.filter(item => param[item] !== 'undefined');
-            switch (index.length) {
-                case 1:
-                    sqlPinJie = index + '=?';
-                    sqlArr = [param[index]];
-                    break;
-                case 2:
-                    sqlPinJie = index[0] + '=? and ' + index[1] + '=? ';
-                    sqlArr = [param[index[0]], param[index[1]]];
-                    break;
-                case 3:
-                    sqlPinJie = index[0] + '=? and ' + index[1] + ' =? ' + ' and ' + index[2] + '=?';
-                    sqlArr = [param[index[0]], param[index[1]], param[index[2]]];
-                    break;
-            }
-            param['type'] = 'findDistributedC'; param['role'] = 'Controller';  */
             const sql = `SELECT DISTINCT buildNumber, dormitoryNumber  FROM  student WHERE  instructName = ?`;
-            console.log(sql);
-            console.log(arr);
-            
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });
@@ -64,16 +39,12 @@ module.exports =  {
     //学号姓名查询详细信息
     findDetail:(field,column,arr)=> {
         if (arr.length === 3) {
-            console.log('a');
-            
             const sql = `SELECT ${field} FROM  student where buildNumber=? and (studentName=? ${column} studentNumber=? )`;
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });
         }else{
             const sql = `SELECT ${field} FROM  student where studentName=? ${column} studentNumber=? `;
-            console.log(sql);
-            console.log(arr);
             return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
             });

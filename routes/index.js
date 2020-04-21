@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const multer = require('multer');
 const fs = require('fs');
 const excel = require('../lib/excel-utils');
@@ -54,6 +53,8 @@ router.get('/operate', async (req, res, next) => {
   let modify = [];
   let invariable = [];
   if (req.userInfo[1].role === 'Controller') {
+    console.log('11111111111111qqqqqqqqqqqqqqqqqqqqq');
+    
     if (param.type === 'findDormitory') {
       param.buildNumber !== undefined && param.dormitoryNumber !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.Controller.find[param.type];
@@ -62,16 +63,20 @@ router.get('/operate', async (req, res, next) => {
     } else if (param.type === 'findDistributedC') {
       arr = [param.instructName]
       invariable = ['buildNumber', 'dormitoryNumber'];
-    } else {
+    } else if(param.type === 'findDistributed'){
       param.grade !== undefined && param.profession !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.Controller.find[param.type];
       arr = [param.grade, param.profession];
       invariable = ['buildNumber', 'dormitoryNumber'];
+    }else{
+      res.send('wuquan');
     }
     const result = await AllFind[param.type](field, column, arr);
     let status = statues(result);
     res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
   } else if (req.userInfo[1].role === 'Instructor') {
+    console.log('444444444444444444444qqqqqqqqqqqqqqqqq');
+    
     if (param.type === 'findDormitory') {
       param.buildNumber !== undefined && param.dormitoryNumber !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.Instructor.find[param.type];
@@ -83,25 +88,31 @@ router.get('/operate', async (req, res, next) => {
       field = AllSql.学生信息管理.role.Instructor.find[param.type];
       arr = [param.studentName, param.studentNumber];
       invariable = ['studentNumber', 'studentName', 'grade', 'profession', 'class', 'phoneNumber', 'buildNumber', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone', 'stubName', 'stubPhone'];
-    } else {
+    } else if(param.type === 'findDistributed'){
       field = AllSql.学生信息管理.role.Instructor.find[param.type];
       column = 'and';
       arr = [req.userInfo[1].positions.split(',')[0], req.userInfo[1].positions.split(',')[1], param.profession];
       invariable = ['buildNumber', 'dormitoryNumber'];
+    }else{
+      res.send('wuquan');
     }
     const result = await AllFind[param.type](field, column, arr);
     let status = statues(result);
     res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
 
   } else if (req.userInfo[1].role === 'DeLeader') {
-    field = AllSql.学生信息管理.role.Instructor.find[param.type];
-    column = null;
-    param.grade !== undefined && param.profession !== undefined ? column = 'and' : column = 'or';
-    arr = [req.userInfo[1].positions, param.grade, param.profession];
-    const result = await AllFind.findDistributed(field, column, arr);
-    let status = statues(result);
-    res.send({ status: status, data: result.results, invariable: ['buildNumber', 'dormitoryNumber'] });
+    if(param.type === 'findDistributed'){
+      field = AllSql.学生信息管理.role.Instructor.find[param.type];
+      column = null;
+      param.grade !== undefined && param.profession !== undefined ? column = 'and' : column = 'or';
+      arr = [req.userInfo[1].positions, param.grade, param.profession];
+      const result = await AllFind.findDistributed(field, column, arr);
+      let status = statues(result);
+      res.send({ status: status, data: result.results, invariable: ['buildNumber', 'dormitoryNumber'] });
+    }
   } else if (req.userInfo[1].role === 'House') {
+    console.log('333333333333qqqqqqqqqqqq');
+    
     if (param.type === 'findDormitory') {
       column = 'and';
       field = AllSql.学生信息管理.role.House.find[param.type];
@@ -111,14 +122,16 @@ router.get('/operate', async (req, res, next) => {
       const result = await AllFind.findStub({ grade: param.grade, profession: param.profession, department: param.department }, req.userInfo[1].positions);
       let status = statues(result);
       res.send({ status: status, data: result.results, invariable: ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'instructName', 'instructPhone', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone'] });
-    } else {
+    } else if(param.type === 'findDetail'){
       param.studentName !== undefined && param.studentNumber !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.House.find[param.type];
       arr = [req.userInfo[1].positions, param.studentName, param.studentNumber];
       /*  let photos = Object.values(results.results)[0].photo;
        const publicPath = path.resolve(__dirname, "../" + photos); */
-      invariable = ['grade', 'profession', 'dormitoryNumber', 'phoneNumber', 'instructName', 'instructPhone', 'photo'];
+      invariable = ['grade', 'profession', 'dormitoryNumber', 'phoneNumber', 'instructName', 'instructPhone'];
       /* res.sendFile(publicPath); */
+    }else{
+      res.send('wuquan');
     }
     if (param.type !== 'findStub') {
       const result = await AllFind[param.type](field, column, arr);
@@ -154,12 +167,13 @@ router.post('/insert', multer({
   dest: 'public/xlsx'
 }).single('file'), function (req, res, next) {
   if (req.userInfo[1].role === 'Instructor') {
+    let num = [];
     if (req.file.length === 0) {
       return res.json({ error: '上传文件不能为空' });
     } else {
       let file = req.file;
       fs.renameSync('./public/xlsx/' + file.filename, './public/xlsx/' + file.originalname);
-      excel(file.originalname, function (data) {
+      excel(file.originalname, async function (data) {
         if (!data.err) {
           for (let i in data) {
             let arr = [];
@@ -167,18 +181,25 @@ router.post('/insert', multer({
               arr[j] = Object.values(data[i])[j];
             }
             let add = new AllAdd();
-            add.addByInstruct(arr, (err, results) => {
-              if (err) {
-                let str = err;
-                let start = str.indexOf('values') + 7;
-                res.json({ status: '添加失败', msg: str.slice(start, start + 14) });
-              }
-            });
+            const v = await add.addByInstruct(arr);
+            if (v.err !== null) {
+              num.push(v.err.sql);
+            } else {
+              continue;
+            }
           }
+          let Sarr = [];
+          for (let i = 0; i < num.length; i++) {
+            let start = num[i].indexOf('values') + 7;
+            Sarr.push(num[i].slice(start, start + 16));
+          }
+          res.send({ status: '添加失败', msg: Sarr });
         } else {
           res.json(data.err);
         }
       });
+
+
     }
   } else {
     res.send({ status: false, msg: '没有权限' });
