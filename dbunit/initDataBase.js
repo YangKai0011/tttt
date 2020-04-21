@@ -16,7 +16,7 @@ let createDeMe = `CREATE TABLE IF NOT EXISTS departmentmajor(
 //学生信息表
 let createStudent = `CREATE TABLE IF NOT EXISTS  student(
 	id INT(11) PRIMARY KEY AUTO_INCREMENT,
-	studentNumber VARCHAR(11) UNICODE COMMENT '学号',
+	studentNumber VARCHAR(11) NOT NULL COMMENT '学号',
 	studentName VARCHAR(6) NOT NULL COMMENT '姓名',
 	department VARCHAR(20) NOT NULL COMMENT '系名',
 	profession VARCHAR(20)  NOT NULL COMMENT '专业',
