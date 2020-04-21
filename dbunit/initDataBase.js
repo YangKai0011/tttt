@@ -75,11 +75,11 @@ module.exports = function () {
       console.log(err);
     }
   });
-  pool.query(createStudent, function (err, results, fields) {
+/*   pool.query(createStudent, function (err, results, fields) {
     if (err) {
       console.log(err);
     }
-  });
+  }); */
   pool.query(createAppraisal, function (err, results, fields) {
     if (err) {
       console.log(err);
