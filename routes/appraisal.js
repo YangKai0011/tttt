@@ -13,15 +13,15 @@ router.post('/addAppraisal', async (req, res, next) => {
     console.log(param);
     const add = new AllAdd();
     const result = await add.addAppraisal([param.buildNumber, param.dormitoryNumber, param.violations, param.neatItems, param.score, param.options]);
-    if(result.err === null){
-        const data = await add.addResult();
-        let status = statues(data);
-        res.send({ statusResult: status, data: data.results});
-    }else{
+    if (result.err === null) {
+      const data = await add.addResult();
+      let status = statues(data);
+      res.send({ statusResult: status, data: data.results });
+    } else {
       let status = statues(result);
       res.send({ status: status, data: result.results });
     }
-   
+
   }
 
 })
@@ -31,24 +31,20 @@ router.get('/search', async (req, res, next) => {
   const param = req.query;
   if (req.userInfo[1].role === 'Controller') {
     console.log(param);
-    
-    if(param.type === 'findScore'){
-      const result = await AllFind.findScore();
-      let invariable = ['buildNumber', 'dormitoryNumber','score','instructName'];
-      let status = statues(result);
-      res.send({ status: status, data: result.results,invariable:invariable });
-    }else if(param.type === 'findAvg'){
-      const result = await AllFind.findAvg();
-      let invariable = ['AVG' ,'instructName','time']
-      let status = statues(result);
-      res.send({ status: status, data: result.results,invariable:invariable });
-    }else if(param.type === 'findApDe'){
-      const result = await AllFind.findApDe();
-      let invariable = ['buildNumber', 'dormitoryNumber', 'options', 'score','time']
-      let status = statues(result);
-      res.send({ status: status, data: result.results,invariable:invariable});
+    let invariable = [];
+    if (param.type === 'findScore') {
+      invariable = ['buildNumber', 'dormitoryNumber', 'score', 'instructName'];
+    } else if (param.type === 'findAvg') {
+      invariable = ['AVG', 'instructName', 'time']
+    } else if (param.type === 'findApDe') {
+      invariable = ['buildNumber', 'dormitoryNumber', 'options', 'score', 'time']
+    } else {
+      res.send('wuquan');
     }
-  }else{
+    const result = await AllFind[param.type]();
+    let status = statues(result);
+    res.send({ status: status, data: result.results, invariable: invariable });
+  } else {
     res.send('wuquan');
   }
 });

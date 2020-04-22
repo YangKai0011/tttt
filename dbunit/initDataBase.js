@@ -5,7 +5,8 @@ let createAccent = `create table if not exists accents(
   id int(11) primary key auto_increment,
   accent varchar(15) not null,
   password varchar(20) not null,
-  role varchar(10)
+  role varchar(10) not null,
+  positions varchar(10) not NULL
 )ENGINE=INNODB DEFAULT CHARSET=utf8;`;
  
 let createDeMe = `CREATE TABLE IF NOT EXISTS departmentmajor(
@@ -59,6 +60,7 @@ let createResult = `CREATE TABLE IF NOT EXISTS result(
 	checkDate  TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP COMMENT '检查日期'
 )ENGINE=INNODB DEFAULT CHARSET=utf8;`;
 
+//宿舍用途表
 let creatBuMe = `CREATE TABLE IF NOT EXISTS buildingmanagement(
 	buildNumber INT(11) COMMENT '楼号',
 	dormitoryNumber INT(11) COMMENT '宿舍号',
