@@ -17,6 +17,13 @@ class AllDel {
           pool.query(sql, $callback(resolve, reject));
         });
       }
+      //删除宿舍用途
+      deleteMajor(param){
+       const sql = `DELETE FROM buildingmanagement WHERE buildNumber = ? AND dormitoryNumber = ?`;
+       return  new Promise(function (resolve, reject) {
+        pool.query(sql, [param.buildNumber,param.dormitoryNumber],$callback(resolve, reject));
+      });
+      }
 
 } 
 

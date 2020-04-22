@@ -7,5 +7,12 @@ module.exports =  {
         return new Promise(function (resolve, reject) {
           pool.query(sql, arrParam, $callback(resolve, reject));
         });
+      },
+
+      updateMajor(param){
+        const sql = `update buildingmanagement set application=? where buildNumber=? and dormitoryNumber=? `;
+        return new Promise(function (resolve, reject) {
+          pool.query(sql, [param.application,param.buildNumber,param.dormitoryNumber], $callback(resolve, reject));
+        });
       }
 }

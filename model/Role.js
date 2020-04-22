@@ -11,11 +11,11 @@ module.exports = {
     Controller: {
         oper: { '学生住宿信息管理': ['查询', '宿舍平面图'], '宿舍评比、奖惩': [ '宿舍分值登记','宿舍分值查询'] /* ,  '导员信息维护': [] */ },
         学生住宿信息管理: {
-            find: { 'findDormitory': ['buildNumber', 'dormitoryNumber'], 'findDistributed': ['grade', 'profession'] },
+            find: { 'findDormitory': ['buildNumber', 'dormitoryNumber'], 'findDistributed': ['grade', 'profession'], 'findDistributedC':['instructName']},
         },
         宿舍评比: {
             /* find: { 'findScore': [],'findAvg':[],'findApDe':[] }, */
-            add: { 'addAppraisal': ['buildNumber', 'dormitoryNumber', 'violationssc', 'neatItemssc', 'score', 'optiones'] }
+            add: { 'addAppraisal': ['buildNumber', 'dormitoryNumber', 'violations', 'neatItems', 'score', 'optiones'] }
 
         }
     },

@@ -210,13 +210,25 @@ router.post('/delete', async function (req, res) {
     let del = new AllDel();
     const result = await del.deleteByStudentNumber(param);
     let status = statues(result);
-    res.send({ status: status, results: result.results });
+    res.send({ status: status, data: result.results });
   } else {
     res.send({ status: false, msg: '没有权限' });
   }
 
 });
 
+//删除宿舍用途
+router.post('/deleteMajor',async (req, res)=>{
+  if(req.userInfo[1].role === 'Controller'){
+    const param = req.body;
+    let del = new AllDel();
+    const result = await del.deleteMajor(param);
+    let status =statues(result);
+    res.send({ status: status, data: result.results });
+  }else {
+    res.send({ status: false, msg: '没有权限' });
+  }
+});
 
 //导员修改信息
 router.post('/update', async function (req, res) {
@@ -240,11 +252,23 @@ router.post('/update', async function (req, res) {
     arrParam.push(param.studentNumber)
     const result = await AllUpdate.update(sqlPinJie, arrParam);
     let status = statues(result)
-    res.send({ status: status, results: result.results.affectedRows });
+    res.send({ status: status, data: result.results.affectedRows });
   } else {
     res.send({ status: false, msg: '没有权限' });
   }
 
+});
+
+//学工部修改用途
+router.post('/updateMajor',async (req, res)=>{
+  if(req.userInfo[1].role === 'Controller'){
+    const param = req.body;
+    const result = await AllUpdate.updateMajor(param);
+    let status = statues(result)
+    res.send({ status: status, data: result.results.affectedRows });
+  }else {
+    res.send({ status: false, msg: '没有权限' });
+  }
 });
 
 //宿舍楼栋,楼层的管理

@@ -28,7 +28,7 @@ module.exports =  {
             });
         }
     },
-
+    //学工部根据导员查宿舍分布
     findDistributedC:(field, column, arr)=>{
             const sql = `SELECT DISTINCT buildNumber, dormitoryNumber  FROM  student WHERE  instructName = ?`;
             return new Promise(function (resolve, reject) {
@@ -102,6 +102,7 @@ module.exports =  {
         });
     },
 
+    //查询宿舍用途
     findBuMe:()=>{
         const sql = `SELECT buildNumber,dormitoryNumber,  application FROM buildingmanagement WHERE application IS NOT NULL`;
         return new Promise((resolve, reject)=>{
