@@ -6,6 +6,8 @@ const AllDel = require('../model/Curd/AllDel');
 const AllUpdate = require('../model/Curd/AllUpdate');
 router.get('/', async (req, res) => {
     const param = req.type;
+    console.log(param);
+    
     if (req.userInfo[1].role === 'Controller') {
         if (param.type === 'findBuMe') {
             let invariable = ['buildNumber', 'dormitoryNumber', 'application'];
@@ -22,6 +24,8 @@ router.get('/', async (req, res) => {
 });
 router.get('/getData',(req, res)=>{
     const param = req.query;
+    console.log(param);
+    
     let arr = ['体育总会','学工部','维修','邮局','医务室','外保','库房','内保','宿舍办公室','食堂办公室','国护','保卫处','后勤'];
     const result = arr.filter(item => item.includes(param.data));
     res.send({data:result});
@@ -31,6 +35,8 @@ router.get('/getData',(req, res)=>{
 router.post('/addBuildingMa', (req, res) => {
     if (req.userInfo[1].role === 'Controller') {
       const param = req.body;
+      console.log(param);
+      
       const add = new AllAdd();
       add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application]);
     } else {
@@ -41,6 +47,8 @@ router.post('/addBuildingMa', (req, res) => {
 router.post('/updateMajor', async (req, res) => {
     if (req.userInfo[1].role === 'Controller') {
       const param = req.body;
+      console.log(param);
+      
       const result = await AllUpdate.updateMajor(param);
       let status;
       if (result.err === null) {
@@ -57,6 +65,8 @@ router.post('/updateMajor', async (req, res) => {
 router.post('/deleteMajor', async (req, res) => {
     if (req.userInfo[1].role === 'Controller') {
       const param = req.body;
+      console.log(param);
+      
       let del = new AllDel();
       const result = await del.deleteMajor(param);
       let status;
