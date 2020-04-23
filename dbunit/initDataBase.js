@@ -64,7 +64,8 @@ let createResult = `CREATE TABLE IF NOT EXISTS result(
 let creatBuMe = `CREATE TABLE IF NOT EXISTS buildingmanagement(
 	buildNumber INT(11) COMMENT '楼号',
 	dormitoryNumber INT(11) COMMENT '宿舍号',
-	application VARCHAR(20) COMMENT '用途'
+	application VARCHAR(20) COMMENT '用途',
+	buildingmanagement varchar(10) comment '部门'
 )ENGINE=INNODB DEFAULT CHARSET=utf8;`;
 module.exports = function () {
   pool.query(createAccent, function (err, results, fields) {

@@ -21,9 +21,9 @@ let sql = [
 `INSERT INTO appraisal(buildNumber, dormitoryNumber, violations, neatItems, score,options) VALUES(2, 317, 50, 20, 30,'斯拉软件，阳台');`,
 `INSERT INTO appraisal(buildNumber, dormitoryNumber, violations, neatItems, score,options) VALUES(2, 315, 40, 20, 40,'斯拉软件');`,
 `INSERT INTO appraisal(buildNumber, dormitoryNumber, violations, neatItems, score,options) VALUES(2, 310, 20, 30, 50,'斯拉软件');`,
-`INSERT INTO buildingmanagement VALUE(1,515,'储藏室');`,
-`INSERT INTO buildingmanagement VALUE(1,517,'浴室');`,
-`INSERT INTO buildingmanagement VALUE(1,313,NULL)`
+`INSERT INTO buildingmanagement VALUE(1,515,'储藏室',null);`,
+`INSERT INTO buildingmanagement VALUE(1,517,'浴室',null);`,
+`INSERT INTO buildingmanagement VALUE(1,313,NULL,null)`
 ];
  function insertData() {
     for (let i = 0; i < sql.length; i++) {

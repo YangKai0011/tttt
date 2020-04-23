@@ -30,13 +30,19 @@ router.get('/getData',(req, res)=>{
 });
 
 //宿舍楼栋,楼层的管理
-router.post('/addBuildingMa', (req, res) => {
+router.post('/addBuildingMa',async (req, res) => {
     if (req.userInfo[1].role === 'Controller') {
       const param = req.body;
       console.log(param);
-      
       const add = new AllAdd();
-      add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.value]);
+      const result = add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application,param.department]);
+      let status;
+      if (result.err === null) {
+          status = true;
+      } else {
+          status = false;
+      }
+      res.send({ status: status, data: result.results.affectedRows});
     } else {
       res.send('wuquan')
     }
