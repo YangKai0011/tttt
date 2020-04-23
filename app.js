@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var accentRouter = require('./routes/accent');
 const appraisalRouter = require('./routes/appraisal');
 const downloadRouter = require('./routes/download');
+const majorRouter = require('./routes/major');
 var app = express();
 
 app.use(logger('dev'));
@@ -23,7 +24,7 @@ app.use(allowCors); //跨域中间件
 app.use('/user', accentRouter);
 app.use('/download', downloadRouter);
 app.use((req, res, next)=>{
-  let token = /*  req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjZW50IjoiYWRtaW4iLCJyb2xlIjoiQ29udHJvbGxlciIsInBvc2l0aW9ucyI6bnVsbCwiaWF0IjoxNTg3NjI3NDE1LCJleHAiOjE1ODc3MTM4MTV9.n3JpIVADCpSPToTzIqAVF6Layyg022scwQ3R03quPt8';
+  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjZW50IjoiYWRtaW4iLCJyb2xlIjoiQ29udHJvbGxlciIsInBvc2l0aW9ucyI6bnVsbCwiaWF0IjoxNTg3NjI3NDE1LCJleHAiOjE1ODc3MTM4MTV9.n3JpIVADCpSPToTzIqAVF6Layyg022scwQ3R03quPt8' */;
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
@@ -37,6 +38,7 @@ app.use((req, res, next)=>{
 });
 app.use('/students', indexRouter);
 app.use('/appraisal', appraisalRouter);
+app.use('/major', majorRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

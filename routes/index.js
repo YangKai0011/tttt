@@ -67,9 +67,7 @@ router.get('/operate', async (req, res, next) => {
       field = AllSql.学生信息管理.role.Controller.find[param.type];
       arr = [param.grade, param.profession];
       invariable = ['buildNumber', 'dormitoryNumber'];
-    } else if (param.type === 'findBuMe') {
-      invariable = ['buildNumber', 'dormitoryNumber', 'application'];
-    } else if (param.imgBuildNumber) {
+    }  else if (param.imgBuildNumber) {
       const publicPath = path.resolve(__dirname, "../public/img/" + param.imgBuildNumber + '.png');
       res.sendFile(publicPath);
     } else {
@@ -226,18 +224,6 @@ router.post('/delete', async function (req, res) {
 
 });
 
-//删除宿舍用途
-router.post('/deleteMajor', async (req, res) => {
-  if (req.userInfo[1].role === 'Controller') {
-    const param = req.body;
-    let del = new AllDel();
-    const result = await del.deleteMajor(param);
-    let status = statues(result);
-    res.send({ status: status, data: result.results });
-  } else {
-    res.send({ status: false, msg: '没有权限' });
-  }
-});
 
 //导员修改信息
 router.post('/update', async function (req, res) {
@@ -268,28 +254,7 @@ router.post('/update', async function (req, res) {
 
 });
 
-//学工部修改用途
-router.post('/updateMajor', async (req, res) => {
-  if (req.userInfo[1].role === 'Controller') {
-    const param = req.body;
-    const result = await AllUpdate.updateMajor(param);
-    let status = statues(result)
-    res.send({ status: status, data: result.results.affectedRows });
-  } else {
-    res.send({ status: false, msg: '没有权限' });
-  }
-});
 
-//宿舍楼栋,楼层的管理
-router.post('/addBuildingMa', (req, res) => {
-  if (req.userInfo[1].role === 'Controller') {
-    const param = req.body;
-    const add = new AllAdd();
-    add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application]);
-  } else {
-    res.send('wuquan')
-  }
-});
 
 function statues(result) {
   let status;
