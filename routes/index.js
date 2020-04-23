@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
+const path = require('path')
 const excel = require('../lib/excel-utils');
 const router = express.Router();
 const AllSql = require('../dbunit/AllSql');
@@ -66,14 +67,22 @@ router.get('/operate', async (req, res, next) => {
       field = AllSql.学生信息管理.role.Controller.find[param.type];
       arr = [param.grade, param.profession];
       invariable = ['buildNumber', 'dormitoryNumber'];
-    }else if(param.type === 'findBuMe'){
-      invariable = ['buildNumber','dormitoryNumber','application'];
+    } else if (param.type === 'findBuMe') {
+      invariable = ['buildNumber', 'dormitoryNumber', 'application'];
+    } else if (param.imgBuildNumber) {
+      const publicPath = path.resolve(__dirname, "../public/img/" + param.imgBuildNumber + '.png');
+      res.sendFile(publicPath);
     } else {
       res.send('wuquan');
     }
-    const result = await AllFind[param.type](field, column, arr);
-    let status = statues(result);
-    res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
+    if (param.type) {
+      const result = await AllFind[param.type](field, column, arr);
+      let status = statues(result);
+      res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
+    }
+
+
+
   } else if (req.userInfo[1].role === 'Instructor') {
     if (param.type === 'findDormitory') {
       param.buildNumber !== undefined && param.dormitoryNumber !== undefined ? column = 'and' : column = 'or';
@@ -218,14 +227,14 @@ router.post('/delete', async function (req, res) {
 });
 
 //删除宿舍用途
-router.post('/deleteMajor',async (req, res)=>{
-  if(req.userInfo[1].role === 'Controller'){
+router.post('/deleteMajor', async (req, res) => {
+  if (req.userInfo[1].role === 'Controller') {
     const param = req.body;
     let del = new AllDel();
     const result = await del.deleteMajor(param);
-    let status =statues(result);
+    let status = statues(result);
     res.send({ status: status, data: result.results });
-  }else {
+  } else {
     res.send({ status: false, msg: '没有权限' });
   }
 });
@@ -260,13 +269,13 @@ router.post('/update', async function (req, res) {
 });
 
 //学工部修改用途
-router.post('/updateMajor',async (req, res)=>{
-  if(req.userInfo[1].role === 'Controller'){
+router.post('/updateMajor', async (req, res) => {
+  if (req.userInfo[1].role === 'Controller') {
     const param = req.body;
     const result = await AllUpdate.updateMajor(param);
     let status = statues(result)
     res.send({ status: status, data: result.results.affectedRows });
-  }else {
+  } else {
     res.send({ status: false, msg: '没有权限' });
   }
 });
@@ -277,7 +286,7 @@ router.post('/addBuildingMa', (req, res) => {
     const param = req.body;
     const add = new AllAdd();
     add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application]);
-  }else{
+  } else {
     res.send('wuquan')
   }
 });
