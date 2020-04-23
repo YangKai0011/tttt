@@ -20,6 +20,12 @@ router.get('/', async (req, res) => {
         }
     }
 });
+router.get('getData',(req, res)=>{
+    const param = req.query;
+    let arr = ['体育总会','学工部','维修','邮局','医务室','外保','库房','内保','宿舍办公室','食堂办公室','国护','保卫处','后勤'];
+    const result = arr.filter(item => item.includes(param.data));
+    res.send({data:result});
+});
 
 //宿舍楼栋,楼层的管理
 router.post('/addBuildingMa', (req, res) => {
