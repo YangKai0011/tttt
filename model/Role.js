@@ -4,12 +4,13 @@ module.exports = {
         'findDistributed': '按照年级专业查询',
         'findDetail': '按照学号姓名查询',
         'findStub': '按照宿管号年级专业系别查询',
+        'findDistributedC': '按导员查询宿舍分布'
         /* 'findScore': '查询所有宿舍成绩',
         'findAvg': '按每个导员所管辖的年级专业查询平均分',
         'findApDe': '显示宿舍得分详情总分,各违纪项' */
     },
     Controller: {
-        oper: { '学生住宿信息管理': ['查询', '宿舍平面图'], '宿舍评比、奖惩': [ '宿舍分值登记','宿舍分值查询'],'宿舍用途':['添加','删除','修改','查找'] /* ,  '导员信息维护': [] */ },
+        oper: { '学生住宿信息管理': ['查询', '宿舍平面图'], '宿舍评比、奖惩': [ '宿舍分值登记','宿舍分值查询'],'宿舍用途':['宿舍添加','删除','修改','查找'] /* ,  '导员信息维护': [] */ },
         学生住宿信息管理: {
             find: { 'findDormitory': ['buildNumber', 'dormitoryNumber'], 'findDistributed': ['grade', 'profession'], 'findDistributedC':['instructName']},
         },

@@ -5,9 +5,7 @@ const AllAdd = require('../model/Curd/AllAdd');
 const AllDel = require('../model/Curd/AllDel');
 const AllUpdate = require('../model/Curd/AllUpdate');
 router.get('/', async (req, res) => {
-    const param = req.type;
-    console.log(param);
-    
+    const param = req.query;
     if (req.userInfo[1].role === 'Controller') {
         if (param.type === 'findBuMe') {
             let invariable = ['buildNumber', 'dormitoryNumber', 'application'];
@@ -38,7 +36,7 @@ router.post('/addBuildingMa', (req, res) => {
       console.log(param);
       
       const add = new AllAdd();
-      add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application]);
+      add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.value]);
     } else {
       res.send('wuquan')
     }
