@@ -23,11 +23,17 @@ router.get('/', async (req, res) => {
           const publicPath = path.resolve(__dirname, "../public/img/" + param.buildNumber + '.png');
           console.log(publicPath);
           console.log('11111111');
+          fs.readFile(publicPath,(err,data)=>{
+            console.log(data);
+            var base = new Buffer(data)
+            console.log(base);
+            res.send({data:base});
+          })
+         
           
-          var base64str = new Buffer(publicPath).toString('base64');
           
-          console.log(base64str);
-          res.send({data:base64str});
+          
+         
 
           /* fs.writeFileSync('copy.jpg', base64str); */
           /* res.sendFile(publicPath); */
