@@ -25,9 +25,9 @@ router.get('/', async (req, res) => {
           console.log('11111111');
           fs.readFile(publicPath,(err,data)=>{
             console.log(data);
-            var base = new Buffer(data)
-            console.log(base);
-            res.send({data:base});
+            const basestr = new Buffer(data).toString('base64');
+            console.log(basestr);
+            res.send({data:basestr});
           })
          
           
