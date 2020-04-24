@@ -4,6 +4,7 @@ const AllFind = require('../model/Curd/AllFind');
 const AllAdd = require('../model/Curd/AllAdd');
 const AllDel = require('../model/Curd/AllDel');
 const AllUpdate = require('../model/Curd/AllUpdate');
+const path = require('path');
 router.get('/', async (req, res) => {
     const param = req.query;
     if (req.userInfo[1].role === 'Controller') {
