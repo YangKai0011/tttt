@@ -42,7 +42,7 @@ router.post('/addBuildingMa',async (req, res) => {
       } else {
           status = false;
       }
-      res.send({ status: status, data: result.results.affectedRows});
+      res.send({ status: status, data: result.results});
     } else {
       res.send('wuquan')
     }
