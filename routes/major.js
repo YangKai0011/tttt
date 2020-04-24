@@ -5,6 +5,7 @@ const AllAdd = require('../model/Curd/AllAdd');
 const AllDel = require('../model/Curd/AllDel');
 const AllUpdate = require('../model/Curd/AllUpdate');
 const path = require('path');
+const fs = require('fs'); 
 router.get('/', async (req, res) => {
     const param = req.query;
     if (req.userInfo[1].role === 'Controller') {
@@ -20,7 +21,16 @@ router.get('/', async (req, res) => {
             res.send({ status: status, data: result.results, invariable:invariable});
         }else if (param.type = 'imgBuildNumber') {
           const publicPath = path.resolve(__dirname, "../public/img/" + param.buildNumber + '.png');
-          res.sendFile(publicPath);
+          console.log(publicPath);
+          console.log('11111111');
+          
+          var base64str = new Buffer(publicPath).toString('base64');
+          
+          console.log(base64str);
+          res.send({data:base64str});
+
+          /* fs.writeFileSync('copy.jpg', base64str); */
+          /* res.sendFile(publicPath); */
         }
     }
 });
