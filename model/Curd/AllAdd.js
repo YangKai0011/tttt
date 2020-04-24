@@ -32,7 +32,7 @@ class AllAdd  {
     }
     
     addBuildingMa(arr){
-        const sql =   `INSERT INTO buildingmanagement VALUE(?,?,?);`;
+        const sql =   `INSERT INTO buildingmanagement VALUE(?,?,?,?);`;
         return new Promise(function (resolve, reject) {
             pool.query(sql,arr ,$callback(resolve, reject));
         });
