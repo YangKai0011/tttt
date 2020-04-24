@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
           const publicPath = path.resolve(__dirname, "../public/img/" + param.buildNumber + '.png');
           console.log(publicPath);
           console.log('11111111');
-          fs.readFile(publicPath,(err,data)=>{
+          /* fs.readFile(publicPath,(err,data)=>{
             if(err){
               res.send({msg:'读取错误'});
             }else{
@@ -33,7 +33,8 @@ router.get('/', async (req, res) => {
               res.send({data:basestr});
             }
            
-          })
+          }) */
+          res.send({url:publicPath});
          
           
           
