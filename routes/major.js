@@ -17,6 +17,9 @@ router.get('/', async (req, res) => {
                 status = false;
             }
             res.send({ status: status, data: result.results, invariable:invariable});
+        }else if (param.type = 'imgBuildNumber') {
+          const publicPath = path.resolve(__dirname, "../public/img/" + param.buildNumber + '.png');
+          res.sendFile(publicPath);
         }
     }
 });
@@ -35,14 +38,14 @@ router.post('/addBuildingMa',async (req, res) => {
       const param = req.body;
       console.log(param);
       const add = new AllAdd();
-      const result = add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application,param.department]);
+      const result = await add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application,param.department]);
       let status;
       if (result.err === null) {
           status = true;
       } else {
           status = false;
       }
-      res.send({ status: status, data: result.results});
+      res.send({ status: status, data: result.results.affectedRows});
     } else {
       res.send('wuquan')
     }

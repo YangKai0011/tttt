@@ -10,7 +10,7 @@ module.exports = {
         'findApDe': '显示宿舍得分详情总分,各违纪项' */
     },
     Controller: {
-        oper: { '学生住宿信息管理': ['查询', '宿舍平面图'], '宿舍评比、奖惩': [ '宿舍分值登记','宿舍分值查询'],'宿舍用途':['宿舍管理'/* ,'删除','修改','查找' */] /* ,  '导员信息维护': [] */ },
+        oper: { '学生住宿信息管理': ['查询'], '宿舍评比、奖惩': [ '宿舍分值登记','宿舍分值查询'],'宿舍信息管理':['宿舍管理','宿舍平面图'/* ,'删除','修改','查找' */] /* ,  '导员信息维护': [] */ },
         学生住宿信息管理: {
             find: { 'findDormitory': ['buildNumber', 'dormitoryNumber'], 'findDistributed': ['grade', 'profession'], 'findDistributedC':['instructName']},
         },
@@ -21,7 +21,7 @@ module.exports = {
         }
     },
     Instructor: {
-        oper: { '学生住宿信息管理': ['查询', '添加','调宿'] },
+        oper: { '学生住宿信息管理': ['学生信息管理', '添加','调宿'] },
         学生住宿信息管理: {
             find: { 'findDormitory': ['buildNumber', 'dormitoryNumber'], 'findDetail': ['studentName', 'studentNumber'], 'findDistributed': ['profession'] }
         }

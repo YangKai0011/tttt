@@ -67,17 +67,14 @@ router.get('/operate', async (req, res, next) => {
       field = AllSql.学生信息管理.role.Controller.find[param.type];
       arr = [param.grade, param.profession];
       invariable = ['buildNumber', 'dormitoryNumber'];
-    }  else if (param.imgBuildNumber) {
-      const publicPath = path.resolve(__dirname, "../public/img/" + param.imgBuildNumber + '.png');
-      res.sendFile(publicPath);
     } else {
       res.send('wuquan');
     }
-    if (param.type) {
-      const result = await AllFind[param.type](field, column, arr);
-      let status = statues(result);
-      res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
-    }
+
+    const result = await AllFind[param.type](field, column, arr);
+    let status = statues(result);
+    res.send({ status: status, data: result.results, invariable: invariable, modify: modify });
+
 
 
 
