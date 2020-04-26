@@ -252,7 +252,6 @@ router.post('/update', async function (req, res) {
 });
 
 
-
 function statues(result) {
   let status;
   return result.err !== null ? status = false : status = true;

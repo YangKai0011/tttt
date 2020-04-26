@@ -21,8 +21,6 @@ router.get('/', async (req, res) => {
             res.send({ status: status, data: result.results, invariable:invariable});
         }else if (param.type = 'imgBuildNumber') {
           const publicPath = path.resolve(__dirname, "../public/img/" + param.buildNumber + '.png');
-          console.log(publicPath);
-          console.log('11111111');
           fs.readFile(publicPath,(err,data)=>{
             if(err){
               res.send({msg:'读取错误'});
@@ -34,15 +32,6 @@ router.get('/', async (req, res) => {
             }
            
           })
-     /*      res.send({url:publicPath}); */
-         
-          
-          
-          
-         
-
-          /* fs.writeFileSync('copy.jpg', base64str); */
-          /* res.sendFile(publicPath); */
         }
     }
 });
@@ -55,7 +44,7 @@ router.get('/getData',(req, res)=>{
     res.send({data:result});
 });
 
-//宿舍楼栋,楼层的管理
+//宿舍楼栋,楼层的插入
 router.post('/addBuildingMa',async (req, res) => {
     if (req.userInfo[1].role === 'Controller') {
       const param = req.body;
@@ -78,7 +67,6 @@ router.post('/updateMajor', async (req, res) => {
     if (req.userInfo[1].role === 'Controller') {
       const param = req.body;
       console.log(param);
-      
       const result = await AllUpdate.updateMajor(param);
       let status;
       if (result.err === null) {

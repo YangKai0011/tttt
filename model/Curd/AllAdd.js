@@ -31,6 +31,7 @@ class AllAdd  {
         });
     }
     
+    //增加宿舍用途信息
     addBuildingMa(arr){
         const sql =   `INSERT INTO buildingmanagement VALUE(?,?,?,?);`;
         return new Promise(function (resolve, reject) {
