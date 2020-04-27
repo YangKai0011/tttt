@@ -32,7 +32,7 @@ router.get('/search', async (req, res, next) => {
     if (param.type === 'findScore') {
       invariable = ['buildNumber', 'dormitoryNumber', 'score', 'instructName'];
     } else if (param.type === 'findAvg') {
-      invariable = ['AVG', 'instructName', 'time']
+      invariable = ['AVG', 'instructName', 'times']
     } else if (param.type === 'findApDe') {
       invariable = ['buildNumber', 'dormitoryNumber', 'OPTIONS', 'score', 'time']
     } else {
