@@ -38,17 +38,21 @@ module.exports =  {
 
     //学号姓名查询详细信息
     findDetail:(field,column,arr)=> {
+        let sql = null;
         if (arr.length === 3) {
-            const sql = `SELECT ${field} FROM  student where buildNumber=? and (studentName=? ${column} studentNumber=? )`;
-            return new Promise(function (resolve, reject) {
+            console.log('111111122222222222222222');
+            
+            sql = `SELECT ${field} FROM  student where buildNumber=? and (studentName=? ${column} studentNumber=? )`;
+           /*  return new Promise(function (resolve, reject) {
                 pool.query(sql, arr, $callback(resolve, reject));
-            });
+            }); */
         }else{
-            const sql = `SELECT ${field} FROM  student where studentName=? ${column} studentNumber=? `;
-            return new Promise(function (resolve, reject) {
-                pool.query(sql, arr, $callback(resolve, reject));
-            });
+            sql = `SELECT ${field} FROM  student where studentName=? ${column} studentNumber=? `;
+            
         }
+        return new Promise(function (resolve, reject) {
+            pool.query(sql, arr, $callback(resolve, reject));
+        });
     },
     findStub:(param,position)=> {
         console.log(param);
