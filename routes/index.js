@@ -95,7 +95,7 @@ router.get('/operate', async (req, res, next) => {
       arr = [req.userInfo[1].positions.split(',')[0], req.userInfo[1].positions.split(',')[1], param.profession];
       invariable = ['buildNumber', 'dormitoryNumber'];
     } else {
-      res.send('wuquan');
+      res.end('wuquan');
     }
     const result = await AllFind[param.type](field, column, arr);
     let status = statues(result);
@@ -125,10 +125,7 @@ router.get('/operate', async (req, res, next) => {
       param.studentName !== undefined && param.studentNumber !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.House.find[param.type];
       arr = [req.userInfo[1].positions, param.studentName, param.studentNumber];
-      /*  let photos = Object.values(results.results)[0].photo;
-       const publicPath = path.resolve(__dirname, "../" + photos); */
       invariable = ['grade', 'profession', 'dormitoryNumber', 'phoneNumber', 'instructName', 'instructPhone'];
-      /* res.sendFile(publicPath); */
     } else {
       res.send('wuquan');
     }
@@ -188,11 +185,15 @@ router.post('/insert', multer({
             }
           }
           let Sarr = [];
+          let obj1 = [];
           for (let i = 0; i < num.length; i++) {
-            let start = num[i].indexOf('values') + 7;
-            Sarr.push(num[i].slice(start, start + 16));
+            let obj = {};
+            Sarr = num[i].split("(")[2].split("'");
+            obj.studentNumber = Sarr[1];
+            obj.studentName = Sarr[3];
+            obj1.push(obj);
           }
-          res.send({ status: '添加失败', msg: Sarr });
+          res.send({ status: '添加失败', msg: obj1 });
         } else {
           res.json(data.err);
         }
