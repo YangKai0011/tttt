@@ -24,8 +24,6 @@ router.post('/login', function (req, res, next) {
 
 router.get('/check', function (req, res, next) {
   const token = req.headers['authorization'];
-  console.log(token);
-  
   if (token) {
     const result = tokenUtil.checkToken(token);
     const arr = result[0] ? res.json({status: result[0]}) : res.json({ status: false });

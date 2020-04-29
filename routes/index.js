@@ -9,23 +9,7 @@ const AllAdd = require('../model/Curd/AllAdd');
 const AllDel = require('../model/Curd/AllDel');
 const AllUpdate = require('../model/Curd/AllUpdate');
 const role = require('../model/Role');
-//返回角色可做的操作
-router.get('/side', (req, res) => {
-  switch (req.userInfo[1].role) {
-    case 'Controller':
-      res.send(role.Controller.oper);
-      break;
-    case 'Instructor':
-      res.send(role.Instructor.oper);
-      break;
-    case 'DeLeader':
-      res.send(role.DeLeader.oper);
-      break;
-    case 'House':
-      res.send(role.House.oper);
-      break;
-  }
-});
+
 
 router.get('/search', (req, res) => {
   switch (req.userInfo[1].role) {
@@ -256,6 +240,4 @@ function statues(result) {
   let status;
   return result.err !== null ? status = false : status = true;
 };
-
-
 module.exports = router;

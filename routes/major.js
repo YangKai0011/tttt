@@ -25,9 +25,7 @@ router.get('/', async (req, res) => {
             if(err){
               res.send({msg:'读取错误'});
             }else{
-              console.log(data);
               const basestr = new Buffer(data).toString('base64');
-              console.log(basestr);
               res.send(basestr);
             }
            

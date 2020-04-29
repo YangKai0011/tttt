@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const allowCors = require('./lib/allow-cors'); //跨域许可
 const tokenUtil = require('./lib/token-units');
-
+const role = require('./model/Role');
 
 var indexRouter = require('./routes/index');
 var accentRouter = require('./routes/accent');
@@ -22,9 +22,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(allowCors); //跨域中间件
 //路由
 app.use('/user', accentRouter);
+
 app.use('/download', downloadRouter);
 app.use((req, res, next)=>{
-  let token =  /* req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODgwNzkyMjAsImV4cCI6MTU4ODE2NTYyMH0.T4yShXI9BD5E5EyWbsy6UEG16c4ALL0mMq4VsKFt3rE';
+  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODgwNzkyMjAsImV4cCI6MTU4ODE2NTYyMH0.T4yShXI9BD5E5EyWbsy6UEG16c4ALL0mMq4VsKFt3rE' */;
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
@@ -36,6 +37,26 @@ app.use((req, res, next)=>{
     res.json({ status: false });
   }
 });
+app.get('/side',(req, res)=>{
+  console.log('99999999999999999999');
+  
+  switch (req.userInfo[1].role) {
+    case 'Controller':
+      console.log('444444444444');
+      
+      res.send(role.Controller.oper);
+      break;
+    case 'Instructor':
+      res.send(role.Instructor.oper);
+      break;
+    case 'DeLeader':
+      res.send(role.DeLeader.oper);
+      break;
+    case 'House':
+      res.send(role.House.oper);
+      break;
+  }
+})
 app.use('/students', indexRouter);
 app.use('/appraisal', appraisalRouter);
 app.use('/major', majorRouter);
@@ -43,6 +64,7 @@ app.use('/major', majorRouter);
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function (err, req, res, next) {

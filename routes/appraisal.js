@@ -34,7 +34,7 @@ router.get('/search', async (req, res, next) => {
     } else if (param.type === 'findAvg') {
       invariable = ['AVG', 'instructName', 'times']
     } else if (param.type === 'findApDe') {
-      invariable = ['buildNumber', 'dormitoryNumber', 'OPTIONS', 'score', 'time']
+      invariable = ['buildNumber', 'dormitoryNumber', 'OPTIONS', 'score', 'times']
     } else {
       res.send('wuquan');
     }
