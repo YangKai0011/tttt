@@ -38,12 +38,9 @@ app.use((req, res, next)=>{
   }
 });
 app.get('/side',(req, res)=>{
-  console.log('99999999999999999999');
   
   switch (req.userInfo[1].role) {
     case 'Controller':
-      console.log('444444444444');
-      
       res.send(role.Controller.oper);
       break;
     case 'Instructor':

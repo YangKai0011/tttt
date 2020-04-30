@@ -48,7 +48,7 @@ router.post('/addBuildingMa',async (req, res) => {
       const param = req.body;
       console.log(param);
       const add = new AllAdd();
-      const result = await add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application,param.department]);
+      const result = await add.addBuildingMa([param.buildNumber, param.dormitoryNumber, param.application,param.department,param.application,param.department]);
       let status;
       if (result.err === null) {
           status = true;

@@ -33,7 +33,7 @@ class AllAdd  {
     
     //增加宿舍用途信息
     addBuildingMa(arr){
-        const sql =   `INSERT INTO buildingmanagement VALUE(?,?,?,?);`;
+        const sql =   `INSERT INTO buildingmanagement (buildNumber,dormitoryNumber,application,department) VALUE(?,?,?,?) ON DUPLICATE KEY UPDATE application=?,department=?;`;
         return new Promise(function (resolve, reject) {
             pool.query(sql,arr ,$callback(resolve, reject));
         });
