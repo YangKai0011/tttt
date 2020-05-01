@@ -25,11 +25,12 @@ app.use('/user', accentRouter);
 
 app.use('/download', downloadRouter);
 app.use((req, res, next)=>{
-  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODgwNzkyMjAsImV4cCI6MTU4ODE2NTYyMH0.T4yShXI9BD5E5EyWbsy6UEG16c4ALL0mMq4VsKFt3rE' */;
+  let token =  /* req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODgzMjkwMjgsImV4cCI6MTU4ODQxNTQyOH0.6Zs8-0hcvwQMVeeS745Yo-Xwd_tORLyysvIZRYSF9dI';
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
-    console.log(req.userInfo[1].role);
+    
+   /*  console.log(req.userInfo[1].role); */
    /*  console.log(req.userInfo[1].positions.split(',')[0]);
     console.log(req.userInfo[1].positions.split(',')[1]); */
     return next();
@@ -54,6 +55,18 @@ app.get('/side',(req, res)=>{
       break;
   }
 })
+app.get('/nav', (req, res)=>{
+  RoleHashTable={
+    'Controller': '学工部',
+    'Instructor': '导员',
+    'House': '宿管员',
+    'DeLeader': '系领导',
+    'Student': '学生'
+  }
+
+  res.send({role:RoleHashTable[req.userInfo[1].role],position:req.userInfo[1].positions});
+
+});
 app.use('/students', indexRouter);
 app.use('/appraisal', appraisalRouter);
 app.use('/major', majorRouter);
