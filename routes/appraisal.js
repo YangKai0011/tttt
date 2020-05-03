@@ -14,7 +14,7 @@ router.post('/addAppraisal', async (req, res, next) => {
     if (!result.err) {
       const data = await add.addResult();
       let status = statues(data);
-      res.send({ statusResult: status, data: data.results });
+      res.send({ status: status, data: data.results });
     } else {
       let status = statues(result);
       res.send({ status: false, data: status });
