@@ -9,16 +9,16 @@ router.post('/addAppraisal', async (req, res, next) => {
     const param = req.body;
     const add = new AllAdd();
     let options = param.options.join();
+    console.log(options);
     const result = await add.addAppraisal([param.buildNumber, param.dormitoryNumber, param.violations, param.neatItems, param.score, options]);
-    if (result.err === null) {
+    if (result.err) {
       const data = await add.addResult();
       let status = statues(data);
       res.send({ statusResult: status, data: data.results });
     } else {
       let status = statues(result);
-      res.send({ status: status, data: result.results });
+      res.send({ status: false, data: status });
     }
-
   }
 
 })
@@ -46,7 +46,7 @@ router.get('/search', async (req, res, next) => {
   }
 });
 function statues(result) {
-  let status;
-  return result.err !== null ? status = false : status = true;
+  
+  return result.err  ? result.err : true;
 };
 module.exports = router;
