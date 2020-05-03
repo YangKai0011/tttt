@@ -7,9 +7,9 @@ const AllFind = require('../model/Curd/AllFind');
 router.post('/addAppraisal', async (req, res, next) => {
   if (req.userInfo[1].role === 'Controller') {
     const param = req.body;
-    console.log(param);
     const add = new AllAdd();
-    const result = await add.addAppraisal([param.buildNumber, param.dormitoryNumber, param.violations, param.neatItems, param.score, param.options]);
+    let options = param.options.join();
+    const result = await add.addAppraisal([param.buildNumber, param.dormitoryNumber, param.violations, param.neatItems, param.score, options]);
     if (result.err === null) {
       const data = await add.addResult();
       let status = statues(data);

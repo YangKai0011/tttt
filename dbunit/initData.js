@@ -23,7 +23,12 @@ let sql = [
 `INSERT INTO appraisal(buildNumber, dormitoryNumber, violations, neatItems, score,options) VALUES(2, 310, 20, 30, 50,'斯拉软件');`,
 `INSERT INTO buildingmanagement VALUE(1,515,'储藏室',null);`,
 `INSERT INTO buildingmanagement VALUE(1,517,'浴室',null);`,
-`INSERT INTO buildingmanagement VALUE(1,313,NULL,null)`
+`INSERT INTO buildingmanagement VALUE(1,313,NULL,null);`,
+`INSERT INTO grademajor VALUE('大一');`,
+`INSERT INTO grademajor VALUE('大二');`,
+`INSERT INTO grademajor VALUE('大三');`,
+`INSERT INTO grademajor VALUE('大四');`,
+`INSERT INTO buildmajor VALUE(1),(2),(3),(4),(5),(6),(7),(8),(9),(10),(11),(12),(13),(14),(15),(16),(17),(18),(19),(20);`,
 ];
  function insertData() {
     for (let i = 0; i < sql.length; i++) {
