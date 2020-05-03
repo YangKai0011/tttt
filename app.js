@@ -25,7 +25,7 @@ app.use('/user', accentRouter);
 
 app.use('/download', downloadRouter);
 app.use((req, res, next)=>{
-  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjZW50IjoiYWRtaW4iLCJyb2xlIjoiQ29udHJvbGxlciIsInBvc2l0aW9ucyI6IiIsImlhdCI6MTU4ODQ5NjczNywiZXhwIjoxNTg4NTgzMTM3fQ.8sV7EMkjHjYa_PxZmOxSAyR3KOtcNsVq0ptmGQPJOTs' */;
+  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODg1MTM3ODAsImV4cCI6MTU4ODYwMDE4MH0.391bGilgFBNM3no-hTxwAAwGLJlA1Pj4YhiDZCssiQI' */;
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
@@ -63,9 +63,13 @@ app.get('/nav', (req, res)=>{
     'DeLeader': '系领导',
     'Student': '学生'
   }
-
-  res.send({role:RoleHashTable[req.userInfo[1].role],position:req.userInfo[1].positions});
-
+ 
+  if(req.userInfo[1].role === 'House'){
+    let descripe = '号楼';
+    res.send({role:RoleHashTable[req.userInfo[1].role],position:req.userInfo[1].positions + descripe});
+  }else{
+    res.send({role:RoleHashTable[req.userInfo[1].role],position:req.userInfo[1].positions});
+  }
 });
 app.use('/students', indexRouter);
 app.use('/appraisal', appraisalRouter);

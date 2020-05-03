@@ -228,7 +228,7 @@ router.post('/update', async function (req, res) {
     arrParam.push(param.studentNumber)
     const result = await AllUpdate.update(sqlPinJie, arrParam);
     let status = statues(result)
-    res.send({ status: status, data: result.results.affectedRows });
+    res.send({ status: status, data: result.results});
   } else {
     res.send({ status: false, msg: '没有权限' });
   }
