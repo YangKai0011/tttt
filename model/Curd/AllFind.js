@@ -5,8 +5,9 @@ const $callback = require('../../lib/student/callback');
 module.exports = {
 
     //按照宿舍号楼号查询学生信息
+    //TODO
     findDormitory: (field, column, arr) => {
-        const sql = `select ${field} from student where buildNumber=? ${column}  dormitoryNumber=?;`;
+        const sql = `select ${field} from student where  buildNumber=? ${column}  dormitoryNumber=?;`;
         return new Promise(function (resolve, reject) {
             pool.query(sql, arr, $callback(resolve, reject));
         });
