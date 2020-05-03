@@ -11,7 +11,7 @@ router.post('/addAppraisal', async (req, res, next) => {
     let options = param.options.join();
     console.log(options);
     const result = await add.addAppraisal([param.buildNumber, param.dormitoryNumber, param.violations, param.neatItems, param.score, options]);
-    if (result.err) {
+    if (!result.err) {
       const data = await add.addResult();
       let status = statues(data);
       res.send({ statusResult: status, data: data.results });
@@ -20,7 +20,6 @@ router.post('/addAppraisal', async (req, res, next) => {
       res.send({ status: false, data: status });
     }
   }
-
 })
 
 //按照宿舍算总分，显示导员
