@@ -1,7 +1,6 @@
 const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
 class AllDel {
-
     deleteByStudentNumber(param) {
         let sqlPinJie = param[0];
         for (let i = 1; i < param.length; i++) {

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const AllAdd = require('../model/Curd/AllAdd');
 const AllFind = require('../model/Curd/AllFind');
+
 //学工部插入屏评比信息
 router.post('/addAppraisal', async (req, res, next) => {
   if (req.userInfo[1].role === 'Controller') {
@@ -19,6 +20,7 @@ router.post('/addAppraisal', async (req, res, next) => {
     }
   }
 })
+
 //按照宿舍算总分，显示导员
 router.get('/search', async (req, res, next) => {
   const param = req.query;
