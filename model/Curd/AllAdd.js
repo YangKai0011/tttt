@@ -18,6 +18,7 @@ class AllAdd  {
 
     //宿舍评比将检查的结果上传
     addAppraisal(sqlArr) {
+       
         const sql = `INSERT INTO appraisal(buildNumber, dormitoryNumber, violations, neatItems, score,options) VALUES(?,?,?,?,?,?);`;
         return new Promise(function (resolve, reject) {
             pool.query(sql, sqlArr, $callback(resolve, reject));
@@ -25,7 +26,7 @@ class AllAdd  {
     }
     //中间表主要用来计算平均分
     addResult(){
-        const sql =   `INSERT INTO result  SELECT DISTINCT appraisal.buildNumber, appraisal.dormitoryNumber,appraisal.score, student.instructName,student.grade,student.profession,appraisal.checkDate FROM appraisal LEFT JOIN student ON appraisal.buildNumber = student.buildNumber AND appraisal.dormitoryNumber = student.dormitoryNumber WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m');`;
+        const sql =   `INSERT INTO result  SELECT DISTINCT appraisal.buildNumber, appraisal.dormitoryNumber,appraisal.score, student.instructName,student.grade,student.profession,appraisal.checkDate,student.department FROM appraisal LEFT JOIN student ON appraisal.buildNumber = student.buildNumber AND appraisal.dormitoryNumber = student.dormitoryNumber WHERE DATE_FORMAT(checkDate,'%Y%m')=DATE_FORMAT(CURDATE(),'%Y%m');`;
         return new Promise(function (resolve, reject) {
             pool.query(sql, $callback(resolve, reject));
         });

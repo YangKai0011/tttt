@@ -10,7 +10,6 @@ const AllDel = require('../model/Curd/AllDel');
 const AllUpdate = require('../model/Curd/AllUpdate');
 const role = require('../model/Role');
 
-
 router.get('/search', (req, res) => {
   switch (req.userInfo[1].role) {
     case 'Controller':
