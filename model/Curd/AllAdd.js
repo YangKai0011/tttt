@@ -18,7 +18,6 @@ class AllAdd  {
 
     //宿舍评比将检查的结果上传
     addAppraisal(sqlArr) {
-       
         const sql = `INSERT INTO appraisal(buildNumber, dormitoryNumber, violations, neatItems, score,options) VALUES(?,?,?,?,?,?);`;
         return new Promise(function (resolve, reject) {
             pool.query(sql, sqlArr, $callback(resolve, reject));

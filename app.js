@@ -63,7 +63,6 @@ app.get('/nav', (req, res)=>{
     'DeLeader': '系领导',
     'Student': '学生'
   }
- 
   if(req.userInfo[1].role === 'House'){
     let descripe = '号楼';
     res.send({role:RoleHashTable[req.userInfo[1].role],position:req.userInfo[1].positions + descripe});

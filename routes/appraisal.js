@@ -2,14 +2,12 @@ var express = require('express');
 var router = express.Router();
 const AllAdd = require('../model/Curd/AllAdd');
 const AllFind = require('../model/Curd/AllFind');
-
 //学工部插入屏评比信息
 router.post('/addAppraisal', async (req, res, next) => {
   if (req.userInfo[1].role === 'Controller') {
     const param = req.body;
     const add = new AllAdd();
     let options = param.options.join();
-    console.log(options);
     const result = await add.addAppraisal([param.buildNumber, param.dormitoryNumber, param.violations, param.neatItems, param.score, options]);
     if (!result.err) {
       const data = await add.addResult();
@@ -21,7 +19,6 @@ router.post('/addAppraisal', async (req, res, next) => {
     }
   }
 })
-
 //按照宿舍算总分，显示导员
 router.get('/search', async (req, res, next) => {
   const param = req.query;
@@ -45,7 +42,6 @@ router.get('/search', async (req, res, next) => {
   }
 });
 function statues(result) {
-  
   return result.err  ? result.err : true;
 };
 module.exports = router;
