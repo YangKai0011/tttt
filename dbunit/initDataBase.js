@@ -68,6 +68,12 @@ let creatBuMe = `CREATE TABLE IF NOT EXISTS buildingmanagement(
 	department varchar(10) comment '部门',
 	UNIQUE KEY buildNumber (buildNumber,dormitoryNumber)
 )ENGINE=INNODB DEFAULT CHARSET=utf8;`;
+
+let createMajor = `CREATE TABLE IF NOT EXISTS major(
+	id INT(11) PRIMARY KEY AUTO_INCREMENT,
+	grade VARCHAR(10) UNIQUE COMMENT '年级',
+	buildNumber INT(11) UNIQUE COMMENT '楼号'
+)ENGINE=INNODB DEFAULT CHARSET=utf8;`;
 module.exports = function () {
   pool.query(createAccent, function (err, results, fields) {
     if (err) {
@@ -95,6 +101,11 @@ module.exports = function () {
     }
   });
   pool.query(creatBuMe, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
+  });
+  pool.query(createMajor, function (err, results, fields) {
     if (err) {
       console.log(err);
     }
