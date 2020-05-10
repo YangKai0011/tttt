@@ -14,8 +14,7 @@ module.exports = {
     },
     instructDormitory: (field, column, arr) => {
         console.log(arr);
-        
-        const sql = `select ${field} from student where department=? and grade=? and  buildNumber=? ${column}  dormitoryNumber=?;`;
+        const sql = `select ${field} from student where (department=? and grade=?) and  (buildNumber=? ${column}  dormitoryNumber=?);`;
         console.log(sql);
         
         return new Promise(function (resolve, reject) {
