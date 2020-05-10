@@ -16,7 +16,7 @@ module.exports = {
             },
             Instructor: {
                 find: {
-                    'findDormitory': 'studentNumber,studentName,grade,department,profession,class,phoneNumber,fatherPhone,motherPhone,dormitoryLeader,LeaderPhone',
+                    'instructDormitory': 'studentNumber,studentName,grade,department,profession,class,phoneNumber,fatherPhone,motherPhone,dormitoryLeader,LeaderPhone',
                     'findDistributed': 'buildNumber,dormitoryNumber',
                     'findDetail': 'studentNumber,studentName,grade,profession,class,phoneNumber,buildNumber,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone,stubName,stubPhone'
                 },
