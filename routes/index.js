@@ -61,10 +61,10 @@ router.get('/operate', async (req, res, next) => {
 
 
   } else if (req.userInfo[1].role === 'Instructor') {
-    if (param.type === 'findDormitory') {
+    if (param.type === 'instructDormitory') {
       param.buildNumber !== undefined && param.dormitoryNumber !== undefined ? column = 'and' : column = 'or';
       field = AllSql.学生信息管理.role.Instructor.find[param.type];
-      arr = [param.buildNumber, param.dormitoryNumber];
+      arr = [req.userInfo[1].positions.split(',')[0], req.userInfo[1].positions.split(',')[1],param.buildNumber, param.dormitoryNumber];
       modify = ['studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone', 'dormitoryLeader', 'LeaderPhone'];
       invariable = ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'fatherPhone', 'motherPhone', 'dormitoryLeader', 'LeaderPhone'];
     } else if (param.type === 'findDetail') {

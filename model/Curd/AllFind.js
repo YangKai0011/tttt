@@ -12,6 +12,12 @@ module.exports = {
             pool.query(sql, arr, $callback(resolve, reject));
         });
     },
+    instructDormitory: (field, column, arr) => {
+        const sql = `select ${field} from student where department=? and grade=? and  buildNumber=? ${column}  dormitoryNumber=?;`;
+        return new Promise(function (resolve, reject) {
+            pool.query(sql, arr, $callback(resolve, reject));
+        });
+    },
 
     //查询宿舍分布
     findDistributed: (field, column, arr) => {
