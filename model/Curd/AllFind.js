@@ -58,7 +58,7 @@ module.exports = {
         });
     },
     findStub: (param, position) => {
-        let professions = param[profession];
+        let professions = param.profession;
         let buildNumber = position;
        /*  let sqlPinJie = null; let sqlArr = [];
         const positions = position;
@@ -80,7 +80,7 @@ module.exports = {
         } */
         const sql = `SELECT studentNumber,studentName,department,profession,grade,class,phoneNumber,instructName,instructPhone,dormitoryNumber,dormitoryLeader,LeaderPhone,fatherPhone,motherPhone FROM  student WHERE buildNumber=? and (grade=? or profession like '%${professions}%' or department=?)`;
         return new Promise(function (resolve, reject) {
-            pool.query(sql, [buildNumber,Object.values(param)[grade],Object.values(param)[department]], $callback(resolve, reject));
+            pool.query(sql, [buildNumber,param.grade,param.department], $callback(resolve, reject));
         });
     },
 

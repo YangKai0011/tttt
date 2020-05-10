@@ -101,7 +101,7 @@ router.get('/operate', async (req, res, next) => {
       arr = [req.userInfo[1].positions, param.dormitoryNumber]
       invariable = ['studentNumber', 'studentName', 'grade', 'department', 'profession', 'class', 'phoneNumber', 'instructName', 'instructPhone', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone'];
     } else if (param.type === 'findStub') {
-      const result = await AllFind.findStub({ grade: param.grade, profession: param.profession, department: param.department }, req.userInfo[1].positions);
+      const result = await AllFind.findStub(param, req.userInfo[1].positions);
       let status = statues(result);
       res.send({ status: status, data: result.results, invariable: ['studentNumber', 'studentName', 'department', 'profession', 'grade', 'class', 'phoneNumber', 'instructName', 'instructPhone', 'dormitoryNumber', 'dormitoryLeader', 'LeaderPhone', 'fatherPhone', 'motherPhone'] });
     } else if (param.type === 'findDetail') {
