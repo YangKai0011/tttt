@@ -160,7 +160,11 @@ router.post('/insert', multer({
               arr[j] = Object.values(data[i])[j];
             }
             let add = new AllAdd();
+            /* console.log(arr); */
+            
             const v = await add.addByInstruct(arr);
+            console.log(v);
+            
             if (v.err !== null) {
               num.push(v.err.sql);
             } else {
@@ -176,7 +180,7 @@ router.post('/insert', multer({
             obj.studentName = Sarr[3];
             obj1.push(obj);
           }
-          res.send({ status: '添加失败', msg: obj1 });
+          res.send({msg: obj1 });
         } else {
           res.json(data.err);
         }

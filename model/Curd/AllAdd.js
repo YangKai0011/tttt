@@ -2,7 +2,7 @@ const pool = require('../../dbunit/operate');
 const $callback = require('../../lib/student/callback');
 class AllAdd  {
      addByInstruct(arr) {
-        const sql = 'insert into student(studentNumber, studentName, department, profession, grade, class) values(?,?,?,?,?,?)'
+        const sql = 'insert into student(studentNumber, studentName, department, profession, grade, class,buildNumber,dormitoryNumber) values(?,?,?,?,?,?,?,?)'
         return new Promise(function (resolve, reject) {
             pool.query(sql, arr, $callback(resolve, reject));
         });
