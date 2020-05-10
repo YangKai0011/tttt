@@ -25,7 +25,7 @@ app.use('/user', accentRouter);
 
 app.use('/download', downloadRouter);
 app.use((req, res, next)=>{
-  let token = /*  req.headers['authorization']; */'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODkwNDA2MDcsImV4cCI6MTU4OTEyNzAwN30.8qH0bWYttdtFgRYuJtNu0t_mC53dUrNQkYoL3QlU-t0';
+  let token =  req.headers['authorization'];/* 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiYWNjZW50IjoiaW5zdHJ1Y3QiLCJyb2xlIjoiSW5zdHJ1Y3RvciIsInBvc2l0aW9ucyI6Iuiuoeeul-acuuezuyzlpKfkuIAiLCJpYXQiOjE1ODkwNDA2MDcsImV4cCI6MTU4OTEyNzAwN30.8qH0bWYttdtFgRYuJtNu0t_mC53dUrNQkYoL3QlU-t0' */;
   if(token){
     req.userInfo = tokenUtil.checkToken(token);
     console.log(req.userInfo);
